@@ -8,7 +8,8 @@ module maindec(
     output  logic [1:0] memwrite, 
     output  logic [1:0] alusrc,
     output  logic       bne, branch, jump,
-    output  logic [2:0] aluop, readtype
+    output  logic [2:0] aluop, readtype,
+    output  logic       memread
 ); 
     parameter RTYPE = 6'b000000;
     parameter LD    = 6'b110111;
@@ -27,27 +28,27 @@ module maindec(
     parameter ORI   = 6'b001101;
     parameter SLTI  = 6'b001010;
     parameter DADDI = 6'b011000;
-    logic [15:0] controls;
+    logic [16:0] controls;
     assign {regwrite,memtoreg,regdst, memwrite, alusrc,
-            bne,branch,jump, aluop, readtype} = controls; 
+            bne,branch,jump, aluop, readtype, memread} = controls; 
     always_comb
         case (op)
-            RTYPE:  controls <= 16'b101_00_00_000_111_000;
-            SD:     controls <= 16'b000_11_01_000_000_000;
-            SW:     controls <= 16'b000_01_01_000_000_000;
-            SB:     controls <= 16'b000_10_01_000_000_000;
-            LD:     controls <= 16'b110_00_01_000_000_100;
-            LWU:    controls <= 16'b110_00_01_000_000_001;
-            LW:     controls <= 16'b110_00_01_000_000_000;
-            LBU:    controls <= 16'b110_00_01_000_000_011;
-            LB:     controls <= 16'b110_00_01_000_000_010;
-            ADDI:   controls <= 16'b100_00_01_000_000_000;
-            ANDI:   controls <= 16'b100_00_10_000_001_000;
-            ORI:    controls <= 16'b100_00_10_000_010_000;
-            SLTI:   controls <= 16'b100_00_01_000_011_000;
-            DADDI:  controls <= 16'b100_00_01_000_100_000;
-            BEQ:    controls <= 16'b000_00_00_010_000_000;
-            BNE:    controls <= 16'b000_00_00_110_000_000;
-            J:      controls <= 16'b000_00_00_001_000_000;
+            RTYPE:  controls <= 16'b101_00_00_000_111_0000;
+            SD:     controls <= 16'b000_11_01_000_000_0000;
+            SW:     controls <= 16'b000_01_01_000_000_0000;
+            SB:     controls <= 16'b000_10_01_000_000_0000;
+            LD:     controls <= 16'b110_00_01_000_000_1001;
+            LWU:    controls <= 16'b110_00_01_000_000_0011;
+            LW:     controls <= 16'b110_00_01_000_000_0001;
+            LBU:    controls <= 16'b110_00_01_000_000_0111;
+            LB:     controls <= 16'b110_00_01_000_000_0101;
+            ADDI:   controls <= 16'b100_00_01_000_000_0000;
+            ANDI:   controls <= 16'b100_00_10_000_001_0000;
+            ORI:    controls <= 16'b100_00_10_000_010_0000;
+            SLTI:   controls <= 16'b100_00_01_000_011_0000;
+            DADDI:  controls <= 16'b100_00_01_000_100_0000;
+            BEQ:    controls <= 16'b000_00_00_010_000_0000;
+            BNE:    controls <= 16'b000_00_00_110_000_0000;
+            J:      controls <= 16'b000_00_00_001_000_0000;
         endcase
 endmodule

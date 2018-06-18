@@ -10,9 +10,11 @@ module controller(
     output  logic [1:0] alusrcE,
     output  logic [3:0] alucontrolE,
     output  logic       bneD,branchD,jumpD,
-    output  logic [2:0] readtypeM
+    output  logic [2:0] readtypeM,
+    output  logic       memreadM
 ); 
     logic [2:0] aluopD,readtypeE,readtypeD;
+    logic       memreadD,memreadE;
     logic [1:0] memwriteD,memwriteE;
     logic       memtoregD;
     logic       regwriteD,regdstD;
@@ -21,16 +23,16 @@ module controller(
     maindec maindec(clk, reset, op,
                     regwriteD,memtoregD, regdstD, memwriteD,
                     alusrcD, bneD, branchD, jumpD,
-                    aluopD, readtypeD);
+                    aluopD, readtypeD,memreadD);
     aludec aludec(funct, aluopD, alucontrolD);
 
     
-    flopcr#(14)     regD2E(clk,reset,FlushE,//1+1+2+4+2+1+3 = 14
-                        {regwriteD,memtoregD,memwriteD,alucontrolD,alusrcD,regdstD,readtypeD},
-                        {regwriteE,memtoregE,memwriteE,alucontrolE,alusrcE,regdstE,readtypeE});
-    flopr #(7)      regE2M(clk,reset,//1+1+2+3=7
-                        {regwriteE,memtoregE,memwriteE,readtypeE},
-                        {regwriteM,memtoregM,memwriteM,readtypeM});      
+    flopcr#(15)     regD2E(clk,reset,FlushE,//1+1+2+4+2+1+3+1 = 15
+                        {regwriteD,memtoregD,memwriteD,alucontrolD,alusrcD,regdstD,readtypeD,memreadD},
+                        {regwriteE,memtoregE,memwriteE,alucontrolE,alusrcE,regdstE,readtypeE,memreadE});
+    flopr #(8)      regE2M(clk,reset,//1+1+2+3+1=8
+                        {regwriteE,memtoregE,memwriteE,readtypeE,memreadE},
+                        {regwriteM,memtoregM,memwriteM,readtypeM,memreadM});      
     flopr #(2)      regM2W(clk,reset,{regwriteM,memtoregM},
                                      {regwriteW,memtoregW});
 endmodule
