@@ -20,8 +20,8 @@ module mem#(parameter N = 64, L = 128)(
     logic [N-1:0] RAM [L-1:0];
     logic [31:0]  word;
     logic [N-1:0] rdata;
-    initial
-        $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.1/memfile.dat",RAM);
+    initial ready = 1;
+    initial $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.2/memfile.dat",RAM);
     assign instr = instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32];
     assign rdata = dword ? RAM[dataadr[N-1:3]] : {32'b0,word};
     assign check = checka[0] ? RAM[checka[7:1]][31:0] : RAM[checka[7:1]][63:32];
@@ -30,8 +30,9 @@ module mem#(parameter N = 64, L = 128)(
     assign rx_checkh = RAM[rx_data[7:1]][63:32];
     assign rx_checkl = RAM[rx_data[7:1]][31:0];
     always @(posedge clk)begin
-        if(memread)
+        if(memread)begin
             readdata <= rdata;
+        end
     end 
     always @(posedge clk)begin
         if (memwrite==3)//D

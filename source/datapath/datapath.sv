@@ -19,8 +19,7 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     output  logic [7:0] pclow,
     input   logic [4:0] checka,
     output  logic[N-1:0]check,
-    output logic  [4:0] writeregW,
-    input   logic       ready
+    output logic  [4:0] writeregW
 );
     logic           StallF,StallD,ForwardAD,ForwardBD,FlushD;
     logic [1:0]     ForwardAE,ForwardBE;

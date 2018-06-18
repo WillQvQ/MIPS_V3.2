@@ -33,22 +33,22 @@ module maindec(
             bne,branch,jump, aluop, readtype, memread} = controls; 
     always_comb
         case (op)
-            RTYPE:  controls <= 16'b101_00_00_000_111_0000;
-            SD:     controls <= 16'b000_11_01_000_000_0000;
-            SW:     controls <= 16'b000_01_01_000_000_0000;
-            SB:     controls <= 16'b000_10_01_000_000_0000;
-            LD:     controls <= 16'b110_00_01_000_000_1001;
-            LWU:    controls <= 16'b110_00_01_000_000_0011;
-            LW:     controls <= 16'b110_00_01_000_000_0001;
-            LBU:    controls <= 16'b110_00_01_000_000_0111;
-            LB:     controls <= 16'b110_00_01_000_000_0101;
-            ADDI:   controls <= 16'b100_00_01_000_000_0000;
-            ANDI:   controls <= 16'b100_00_10_000_001_0000;
-            ORI:    controls <= 16'b100_00_10_000_010_0000;
-            SLTI:   controls <= 16'b100_00_01_000_011_0000;
-            DADDI:  controls <= 16'b100_00_01_000_100_0000;
-            BEQ:    controls <= 16'b000_00_00_010_000_0000;
-            BNE:    controls <= 16'b000_00_00_110_000_0000;
-            J:      controls <= 16'b000_00_00_001_000_0000;
+            RTYPE:  controls <= 17'b101_00_00_000_111_0000;
+            SD:     controls <= 17'b000_11_01_000_000_0000;
+            SW:     controls <= 17'b000_01_01_000_000_0000;
+            SB:     controls <= 17'b000_10_01_000_000_0000;
+            LD:     controls <= 17'b110_00_01_000_000_1001;
+            LWU:    controls <= 17'b110_00_01_000_000_0011;
+            LW:     controls <= 17'b110_00_01_000_000_0001;
+            LBU:    controls <= 17'b110_00_01_000_000_0111;
+            LB:     controls <= 17'b110_00_01_000_000_0101;
+            ADDI:   controls <= 17'b100_00_01_000_000_0000;
+            ANDI:   controls <= 17'b100_00_10_000_001_0000;
+            ORI:    controls <= 17'b100_00_10_000_010_0000;
+            SLTI:   controls <= 17'b100_00_01_000_011_0000;
+            DADDI:  controls <= 17'b100_00_01_000_100_0000;
+            BEQ:    controls <= 17'b000_00_00_010_000_0000;
+            BNE:    controls <= 17'b000_00_00_110_000_0000;
+            J:      controls <= 17'b000_00_00_001_000_0000;
         endcase
 endmodule
