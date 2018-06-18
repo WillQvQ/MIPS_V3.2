@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module mips#(parameter N = 64)(
-    input   logic       clk, reset,
+    input   logic       clk_in, reset,
     output  logic[N-1:0]dataadr, writedata,
     output  logic [1:0] memwriteM,
     output  logic [31:0]instradr,
@@ -13,8 +13,10 @@ module mips#(parameter N = 64)(
     input   logic [4:0] checka,
     output  logic [N-1:0]check,
     output  logic       regwriteW,
-    output  logic [4:0] writeregW
+    output  logic [4:0] writeregW,
+    input   logic       memready
 );
+    logic       clk;
     logic       lbu;
     logic       memtoregE,memtoregM,memtoregW;  
     logic [1:0] alusrcE;    
@@ -25,7 +27,7 @@ module mips#(parameter N = 64)(
     logic       FlushE;
     logic [2:0] readtypeM;
     assign  dword = readtypeM[2];
-
+    assign      clk = memready&clk_in;
     datapath datapath(clk, reset, op, funct, bneD, branchD, jumpD,
                         regwriteE, regwriteM, regwriteW,
                         memtoregE, memtoregM, memtoregW,

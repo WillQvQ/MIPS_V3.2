@@ -37,7 +37,7 @@ module mem#(parameter N = 64, L = 128)(
             cnt <= 8'b1;
         end
         else if(cnt!=0)begin
-            if(cnt==5)begin
+            if(cnt==1)begin
                 readdata <= rdata;
                 ready <= 1;
                 cnt <= 0;

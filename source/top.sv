@@ -20,7 +20,7 @@ module top#(parameter N = 64)(
     logic dword,memread;
     logic ready;
     logic [31:0] instradr,instr;
-    mips mips(clk&ready,reset,dataadr,writedata,memwrite,instradr,instr,dword,memread,readdata,pclow,checkra,checkr,regwriteW,writeregW);
+    mips mips(clk,reset,dataadr,writedata,memwrite,instradr,instr,dword,memread,readdata,pclow,checkra,checkr,regwriteW,writeregW,ready);
     mem mem(clk,dword,memread,memwrite,dataadr,writedata,instradr,instr,readdata,checkma,checkm,ready,rx_data,rx_check,rx_checkh,rx_checkl);
 
 endmodule
