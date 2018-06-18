@@ -46,6 +46,11 @@ module simulation();
                 $display(cnt);
                 #100 $stop;
             end
+            if (dataadr === 100 & writedata === 6)begin
+                $display("Test-Cache ends!");
+                $display(cnt);
+                #100 $stop;
+            end
         end
         cnt = cnt + 1;
         if(cnt === 1580)begin
