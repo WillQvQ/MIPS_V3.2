@@ -18,7 +18,7 @@ module memblock#(parameter N = 64, L = 128)(
     always @(negedge clk)begin
         if((cnt==0) & blockread)begin
             ready <= 0;
-            cnt <= 8'd20;
+            cnt <= 8'd5;
         end
         else if ((cnt==0) & blockwrite) begin
             {RAM[blockaddr*4],RAM[blockaddr*4+1],RAM[blockaddr*4+2],RAM[blockaddr*4+3]} <= writeblock;
