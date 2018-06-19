@@ -53,7 +53,7 @@ module simulation();
             end
         end
         cnt = cnt + 1;
-        if(cnt === 500)begin
+        if(cnt === 100)begin
             $display("Some error occurs!");
             $stop;
         end
