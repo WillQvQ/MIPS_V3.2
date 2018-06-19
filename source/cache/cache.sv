@@ -23,7 +23,6 @@ module cache#(parameter N = 64)(
     logic [7:0] cacheused;
     logic [7:0] dirty;
     logic [255:0] writeblock,readblock,instrblock;
-    logic [31:0] blockaddr;
     logic [31:0] instrblockaddr;
     logic [2:0] instrblockmod;
     logic [2:0] instrinblock;
@@ -42,8 +41,9 @@ module cache#(parameter N = 64)(
     logic [2:0] writeinblock;
     logic       writehit;
     logic [2:0] rxblockmod;
-    logic [2:0] rxblock;
+    logic [2:0] rxinblock;
     logic [31:0]instraddr;
+    logic [31:0]readaddr,writeaddr;
     assign check = 32'b0;   //UNUSED
     assign rx_checkh = 32'b0;//UNUSED
     assign rx_checkl = 32'b0;//UNUSED
@@ -62,7 +62,7 @@ module cache#(parameter N = 64)(
         dirty = 8'b0;
         ready = 1;
         cnt = 8'b0;
-        blockaddr <= 32'b0;
+        readaddr <= 32'b0;
         cacheid[0] = 32'b0;
         cacheid[1] = 32'b0;
         cacheid[2] = 32'b0;
@@ -114,7 +114,10 @@ module cache#(parameter N = 64)(
             2'd3:readdata64 = RAM[datablockmod][63:0];
         endcase
     end
-    memblock mem(clk, blockwrite, blockread, instraddr, blockaddr, writeblock, readblock, instrblock, memready);
+    memblock mem(clk, blockwrite, blockread, instraddr, readaddr, writeaddr, writeblock, readblock, instrblock, memready);
+    always @(posedge clk)begin
+        writeaddr <= blockmod;
+    end
     always @(negedge clk)begin
         if(memready) begin
             if (cnt==0)begin
@@ -131,7 +134,7 @@ module cache#(parameter N = 64)(
                 end
                 if(!datahit&memread)begin
                     blockread <= 1;
-                    blockaddr <= datablockaddr;
+                    readaddr <= datablockaddr;
                     blockmod <= datablockmod;
                     cnt <= 8'd3;
                     ready <= 0;
@@ -143,7 +146,7 @@ module cache#(parameter N = 64)(
                 end
                 if(!writehit&memwrite)begin
                     blockread <= 1;
-                    blockaddr <= writeblockaddr;
+                    readaddr <= writeblockaddr;
                     blockmod <= writeblockmod;
                     cnt <= 8'd3;
                     ready <= 0;
@@ -195,7 +198,7 @@ module cache#(parameter N = 64)(
                 end
                 else begin
                     cacheused[blockmod]=1;
-                    cacheid[blockmod] <= blockaddr;
+                    cacheid[blockmod] <= readaddr;
                     RAM[blockmod]<= readblock;
                 end
                 case(writeinblock)
