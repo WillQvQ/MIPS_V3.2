@@ -11,3 +11,93 @@
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.xpr
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source onboard.tcl
+close_sim
+set_property top simulation [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/cache.sv
+remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/memblock.sv
+add_files -norecurse {C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/icache.sv C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/mem.sv}
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/icache.sv
+remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/mem.sv
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mips/datapath/regF2D/en}} 
+restart
+run 15000 ns
+add_wave {{/simulation/top/mips/datapath/abort}} 
+add_wave {{/simulation/top/mips/datapath/StallF}} 
+add_wave {{/simulation/top/mips/datapath/StallSF}} 
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mem/abort}} 
+add_wave {{/simulation/top/mem/instrcnt}} 
+add_wave {{/simulation/top/mem/instrreq}} 
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1

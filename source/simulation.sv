@@ -17,9 +17,9 @@ module simulation();
     logic [31:0]instradr,instr;
     logic [4:0] wreg;
     logic       we;
-    logic [32:0]rx_check;
-    logic [32:0]rx_checkh;
-    logic [32:0]rx_checkl;
+    logic [31:0]rx_check;
+    logic [31:0]rx_checkh;
+    logic [31:0]rx_checkl;
 	logic [7:0] rx_data;
     top top(clk,reset,writedata,dataadr,memwrite,readdata,pclow,checka,check,addr,memdata,we,wreg,rx_data,rx_check,rx_checkh,rx_checkl);
     

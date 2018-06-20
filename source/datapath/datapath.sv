@@ -19,7 +19,9 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     output  logic [7:0] pclow,
     input   logic [4:0] checka,
     output  logic[N-1:0]check,
-    output logic  [4:0] writeregW
+    output logic  [4:0] writeregW,
+    output  logic       instrreq,
+    input   logic       hit,abort
 );
     logic           StallF,StallD,ForwardAD,ForwardBD,FlushD;
     logic [1:0]     ForwardAE,ForwardBE;
@@ -41,6 +43,8 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     logic [1:0]     pcsrcD;
     logic [N-1:0]   euqalAD,euqalBD;
     logic           equalD;
+    logic           WaitInstr;
+    logic [1:0]     instrstate;
     assign instradr = pcF;
     hazardunit      hazardunit(clk,reset,branchD,rsD,rtD,rsE,rtE,
                             writeregE,writeregM,writeregW,
@@ -48,13 +52,31 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
                             StallF,StallD,FlushE,
                             ForwardAD,ForwardBD,ForwardAE,ForwardBE);
     //Stage F
-    flopenr #(W)    pcreg(clk, reset, ~StallF, pcnextF, pcF);
+    always_ff @(posedge clk, posedge reset) begin
+        if(reset)begin 
+            instrstate <= 0;
+        end
+        else if(instrstate==0)begin 
+                instrreq<=1; 
+                instrstate<=1; 
+            end
+            else begin 
+                instrreq<=0;
+                if(abort) WaitInstr<=1;
+                else begin 
+                    WaitInstr<=0; 
+                    instrstate<=0;
+                end
+            end
+    end
+    // assign FlushF = 0;
+    flopenr#(W)    pcreg(clk, reset, ~(StallF|WaitInstr), pcnextF, pcF);
 
     assign  pclow = pcF[9:2];
     
     adder   #(W)    pcplus4(pcF,32'b100,pc4F);
     mux3    #(W)    pcmux(pc4F,pcbranchD,{pc4D[31:28],instrD[25:0],2'b00},pcsrcD,pcnextF);
-    flopencr#(64)   regF2D(clk,reset,~StallD,FlushD,//32+32=64
+    flopencr#(64)   regF2D(clk,reset,~StallD,FlushD|WaitInstr,//32+32=64
                         {instrF,pc4F},
                         {instrD,pc4D});
     //Stage D

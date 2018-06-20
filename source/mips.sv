@@ -6,7 +6,8 @@ module mips#(parameter N = 64)(
     output  logic [1:0] memwriteM,
     output  logic [31:0]instradr,
     input   logic [31:0]instr,
-    output  logic       dword,
+    output  logic       instrreq,
+    input   logic       hit,abort,
     input   logic[N-1:0]readdata,
     output  logic [7:0] pclow,
     input   logic [4:0] checka,
@@ -23,7 +24,6 @@ module mips#(parameter N = 64)(
     logic [5:0] op, funct;
     logic       FlushE;
     logic [2:0] readtypeM;
-    assign  dword = readtypeM[2];
 
     datapath datapath(clk, reset, op, funct, bneD, branchD, jumpD,
                         regwriteE, regwriteM, regwriteW,
@@ -31,7 +31,8 @@ module mips#(parameter N = 64)(
                         readtypeM, regdstE, 
                         alusrcE,alucontrolE, dataadr,
                         writedata, readdata, instradr,instr,
-                        FlushE, pclow, checka, check, writeregW);
+                        FlushE, pclow, checka, check, writeregW,
+                        instrreq,hit,abort);
     controller controller(clk, reset, op, funct, FlushE,
                         regdstE, regwriteE,regwriteM,regwriteW,
                         memtoregE,memtoregM,memtoregW, memwriteM,

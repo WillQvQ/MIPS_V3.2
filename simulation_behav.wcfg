@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="435392750fs"></ZoomStartTime>
-      <ZoomEndTime time="459012751fs"></ZoomEndTime>
-      <Cursor1Time time="445753000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="127027051fs"></ZoomEndTime>
+      <Cursor1Time time="20363000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="195"></NameColumnWidth>
-      <ValueColumnWidth column_width="95"></ValueColumnWidth>
+      <ValueColumnWidth column_width="91"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="48" />
+   <WVObjectSize size="27" />
    <wvobject fp_name="/simulation/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -100,118 +100,32 @@
       <obj_property name="ElementShortName">we3</obj_property>
       <obj_property name="ObjectShortName">we3</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/controller/memreadM" type="logic">
-      <obj_property name="ElementShortName">memreadM</obj_property>
-      <obj_property name="ObjectShortName">memreadM</obj_property>
+   <wvobject fp_name="/simulation/top/mips/datapath/regF2D/en" type="logic">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/controller/memreadE" type="logic">
-      <obj_property name="ElementShortName">memreadE</obj_property>
-      <obj_property name="ObjectShortName">memreadE</obj_property>
+   <wvobject fp_name="/simulation/top/mips/datapath/abort" type="logic">
+      <obj_property name="ElementShortName">abort</obj_property>
+      <obj_property name="ObjectShortName">abort</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/controller/memreadD" type="logic">
-      <obj_property name="ElementShortName">memreadD</obj_property>
-      <obj_property name="ObjectShortName">memreadD</obj_property>
+   <wvobject fp_name="/simulation/top/mips/datapath/StallF" type="logic">
+      <obj_property name="ElementShortName">StallF</obj_property>
+      <obj_property name="ObjectShortName">StallF</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/cache/readdata" type="array">
-      <obj_property name="ElementShortName">readdata[63:0]</obj_property>
-      <obj_property name="ObjectShortName">readdata[63:0]</obj_property>
+   <wvobject fp_name="/simulation/top/mips/datapath/StallSF" type="logic">
+      <obj_property name="ElementShortName">StallSF</obj_property>
+      <obj_property name="ObjectShortName">StallSF</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/cache/ready" type="logic">
-      <obj_property name="ElementShortName">ready</obj_property>
-      <obj_property name="ObjectShortName">ready</obj_property>
+   <wvobject fp_name="/simulation/top/mem/abort" type="logic">
+      <obj_property name="ElementShortName">abort</obj_property>
+      <obj_property name="ObjectShortName">abort</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/cache/memready" type="logic">
-      <obj_property name="ElementShortName">memready</obj_property>
-      <obj_property name="ObjectShortName">memready</obj_property>
+   <wvobject fp_name="/simulation/top/mem/instrcnt" type="array">
+      <obj_property name="ElementShortName">instrcnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">instrcnt[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/cache/blockread" type="logic">
-      <obj_property name="ElementShortName">blockread</obj_property>
-      <obj_property name="ObjectShortName">blockread</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/blockaddr" type="array">
-      <obj_property name="ElementShortName">blockaddr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">blockaddr[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/cacheid" type="array">
-      <obj_property name="ElementShortName">cacheid[7:0][31:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheid[7:0][31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/readdata64" type="array">
-      <obj_property name="ElementShortName">readdata64[63:0]</obj_property>
-      <obj_property name="ObjectShortName">readdata64[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/readdata" type="array">
-      <obj_property name="ElementShortName">readdata[63:0]</obj_property>
-      <obj_property name="ObjectShortName">readdata[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/dword" type="logic">
-      <obj_property name="ElementShortName">dword</obj_property>
-      <obj_property name="ObjectShortName">dword</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/word" type="array">
-      <obj_property name="ElementShortName">word[31:0]</obj_property>
-      <obj_property name="ObjectShortName">word[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/dataadr" type="array">
-      <obj_property name="ElementShortName">dataadr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dataadr[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/mem/RAM" type="array">
-      <obj_property name="ElementShortName">RAM[127:0][63:0]</obj_property>
-      <obj_property name="ObjectShortName">RAM[127:0][63:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/dirty" type="array">
-      <obj_property name="ElementShortName">dirty[7:0]</obj_property>
-      <obj_property name="ObjectShortName">dirty[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/RAM" type="array">
-      <obj_property name="ElementShortName">RAM[7:0][255:0]</obj_property>
-      <obj_property name="ObjectShortName">RAM[7:0][255:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/memwrite" type="array">
-      <obj_property name="ElementShortName">memwrite[1:0]</obj_property>
-      <obj_property name="ObjectShortName">memwrite[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/instr" type="array">
-      <obj_property name="ElementShortName">instr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instr[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/mem/cnt" type="array">
-      <obj_property name="ElementShortName">cnt[7:0]</obj_property>
-      <obj_property name="ObjectShortName">cnt[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/cnt" type="array">
-      <obj_property name="ElementShortName">cnt[7:0]</obj_property>
-      <obj_property name="ObjectShortName">cnt[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/datainblock" type="array">
-      <obj_property name="ElementShortName">datainblock[2:0]</obj_property>
-      <obj_property name="ObjectShortName">datainblock[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/datablockmod" type="array">
-      <obj_property name="ElementShortName">datablockmod[2:0]</obj_property>
-      <obj_property name="ObjectShortName">datablockmod[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/cacheused" type="array">
-      <obj_property name="ElementShortName">cacheused[7:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheused[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/blockmod" type="array">
-      <obj_property name="ElementShortName">blockmod[2:0]</obj_property>
-      <obj_property name="ObjectShortName">blockmod[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/readblock" type="array">
-      <obj_property name="ElementShortName">readblock[255:0]</obj_property>
-      <obj_property name="ObjectShortName">readblock[255:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/datablockaddr" type="array">
-      <obj_property name="ElementShortName">datablockaddr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">datablockaddr[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/cache/mem/blockaddr" type="array">
-      <obj_property name="ElementShortName">blockaddr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">blockaddr[31:0]</obj_property>
+   <wvobject fp_name="/simulation/top/mem/instrreq" type="logic">
+      <obj_property name="ElementShortName">instrreq</obj_property>
+      <obj_property name="ObjectShortName">instrreq</obj_property>
    </wvobject>
 </wave_config>
