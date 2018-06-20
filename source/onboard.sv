@@ -7,12 +7,13 @@ module onboard(
     input   logic   [7:0]	addr,
     output  logic 	[6:0]	seg,
     output  logic 	[7:0]	an,
-    output  logic 	[7:0]	pclow,
+    output  logic 	[7:0]	clks,
     input   logic           rx_pin_in,
     output  logic           tx_pin_out
 );
 	logic clk,CLK380,CLK48,CLK04,CLK1_6,clkrun;
-
+	
+	logic [7:0] tx_buf;
 
 	logic [63:0]writedata64, dataadr64;
 	logic [31:0]writedata, dataadr;
@@ -22,7 +23,7 @@ module onboard(
 	logic [2:0]cnt;
 	logic [3:0]digit;   
 	logic [31:0]data;   
-	logic [7:0] clks;
+	logic [7:0] pclow;
     logic [7:0] checka;
     logic [31:0]check;
     logic [63:0]check64;
@@ -30,9 +31,11 @@ module onboard(
     logic [31:0]memdata;
 	logic [4:0] wreg,sreg;
     logic [31:0]rx_check;
+    logic [31:0]rx_checkh;
+    logic [31:0]rx_checkl;
 	logic [7:0] rx_data;
 	logic [7:0] clkshow;
-	logic [31:0] instr;
+    logic [7:0] disp;
     logic       we;
 	clkdiv clkdiv(CLK100MHZ,CLK380,CLK48,CLK1_6,CLK0_4);
 	assign sreg = we ? wreg:addr[4:0];
@@ -42,14 +45,21 @@ module onboard(
 	assign writedata = high1low ? writedata64[63:32] : writedata64[31:0];
 	assign clkrun = quick ? CLK1_6:CLK0_4;
 	assign clk = clkrun & clken;
-	top top(clk,reset,writedata64,dataadr64,memwrite,readdata64,pclow,sreg,check64,we,wreg,rx_data,rx_check,instr);
-	// assign data = {pclow,clks,addr,check64[7:0]};
-	assign data = 32'haabbccdd;
-	initial cnt=3'b0;
+	top top(clk,reset,writedata64,dataadr64,memwrite,readdata64,pclow,sreg,check64,addr,memdata,we,wreg,rx_data,rx_check,rx_checkh,rx_checkl);
+	assign clkshow = clkon ? clks:{sreg[3:0],2'b0,memwrite};
+	assign data = show ? showdata:{disp,clkshow,addr,check64[7:0]};//disp<->pclow
+	initial cnt=2'b0;
+	assign tx_buf = pclow;
     initial clks = 8'b0;
     always@(posedge clk) clks <= clks + 1;
 	always@(posedge CLK380)  
 		begin  
+			case(getone)
+				0:showdata = check;
+				1:showdata = memdata;
+				2:showdata = dataadr;
+				3:showdata = writedata;
+			endcase
 			an=8'b11111111;   
 			an[cnt]=0;  
 			case(cnt)   
@@ -87,5 +97,5 @@ module onboard(
 	assign rst_n = ~reset;	
 	
 	uart_top uart_top(CLK100MHZ,clk,rst_n,tx_pin_out,rx_pin_in,
-	{clks,pclow,6'b0,memwrite,3'b0,wreg,instr},rx_data,rx_check);
+	{clks,pclow,6'b0,memwrite,3'b0,wreg,check64[31:0]},rx_data,rx_check,rx_checkh,rx_checkl);
 endmodule  

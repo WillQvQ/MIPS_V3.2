@@ -107,3 +107,11 @@ expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sourc
 selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, onboard (onboard.sv), top - top (top.sv), cache - cache (cache.sv)]", 7, true); // y:i (D:JPanel, cd:JFrame) - Node
 selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, onboard (onboard.sv), top - top (top.sv), cache - cache (cache.sv), mem - memblock (memblock.sv)]", 8, false); // y:i (D:JPanel, cd:JFrame)
 // [GUI Memory]: 74 MB (+2311kb) [00:02:20]
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_UPDATE_GRAPH
+// TclEventType: FILE_SET_CHANGE

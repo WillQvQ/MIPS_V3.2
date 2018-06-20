@@ -12,8 +12,7 @@ module regfile#(parameter N = 32, L = 32)(
     logic [N-1:0] rf[L-1:0];
     always_ff @(negedge clk)
         if (we3) begin
-            if(wa3)
-                $display("REG%d=%d",wa3,wd3);
+            $display("REG%d=%d",wa3,wd3);
             rf[wa3] <= wd3;
         end
     assign rd1 = (ra1 !=0) ? rf[ra1] : 0;
