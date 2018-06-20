@@ -248,3 +248,249 @@ set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
 set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
 program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
 refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+close_hw
+close_sim
+launch_simulation
+add_files -norecurse C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/icache.sv
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/wr_cache_data}} 
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/dram_data_shift}} 
+add_wave {{/simulation/top/icache/wr_cache_data}} 
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/abort}} 
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/counter}} 
+run 15000 ns
+run 15000 ns
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/dram_req_addr}} 
+add_wave {{/simulation/top/icache/dram_data}} 
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 15000 ns
+add_wave {{/simulation/top/icache/abort}} 
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+add_files -norecurse C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/dcache.sv
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+add_wave {{/simulation/top/dcache/ram_abort}} 
+restart
+run 15000 ns
+add_wave {{/simulation/top/dcache/cpu_addr}} 
+add_wave {{/simulation/top/dcache/cpu_rd_data}} 
+restart
+run 15000 ns
+run 15000 ns
+add_wave {{/simulation/top/dcache/hit}} 
+restart
+run 15000 ns
+launch_simulation -mode post-synthesis -type functional
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 15000 ns
+add_wave {{/simulation/top/icache/cpu_addr_dly}} 
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+restart
+run 15000 ns
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/icache/dram_data_shift}} 
+restart
+run 15000 ns
+add_wave {{/simulation/top/mem/instrcnt}} 
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mem/instr}} 
+restart
+run 15000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run all
+run 15000 ns
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 15000 ns
+add_wave {{/simulation/top/mem/dataadr}} 
+add_wave {{/simulation/top/mem/readdata}} 
+restart
+run 15000 ns
+add_wave {{/simulation/top/mips/datapath/srcaE}} {{/simulation/top/mips/datapath/srcbE}} 
+restart
+run 15000 ns
+run 15000 ns
+run 15000 ns
+run 15000 ns
+add_wave {{/simulation/top/mips/datapath/srca1D}} {{/simulation/top/mips/datapath/srcb1D}} {{/simulation/top/mips/datapath/srca1E}} {{/simulation/top/mips/datapath/srcb1E}} 
+restart
+run 15000 ns
+restart
+run 15000 ns
+add_wave {{/simulation/top/mips/datapath/instrD}} 
+restart
+run 15000 ns
+add_wave {{/simulation/top/mips/datapath/signimmD}} {{/simulation/top/mips/datapath/zeroimmD}} {{/simulation/top/mips/datapath/signimmE}} {{/simulation/top/mips/datapath/zeroimmE}} 
+restart
+run 15000 ns
+restart
+run all
+restart
+run 3000 ns
+add_wave {{/simulation/top/icache/I_SRAM_data}} 
+restart
+run 3000 ns
+add_wave {{/simulation/top/mips/instr}} 
+restart
+run 3000 ns
+add_wave {{/simulation/top/icache/instr}} 
+restart
+run 3000 ns
+add_wave {{/simulation/top/icache/cpu_addr_dly}} 
+add_wave {{/simulation/top/icache/hit}} 
+restart
+run 3000 ns
+add_wave {{/simulation/top/icache/cpu_addr}} 
+restart
+run 3000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mips/datapath/abort}} 
+restart
+run 2000 ns
+add_wave {{/simulation/top/mips/datapath/instrreq}} 
+restart
+run 2000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mips/datapath/WaitInstr}} 
+restart
+run 2000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+add_wave {{/simulation/top/mips/datapath/instrcnt}} 
+restart
+run 2000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 2000 ns
+add_wave {{/simulation/top/icache/hit}} 
+add_wave {{/simulation/top/icache/ins_req_dly}} 
+restart
+run 2000 ns
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 2000 ns
+close_sim
+launch_simulation
+open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
+source simulation.tcl
+run 2000 ns

@@ -52,24 +52,21 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
                             StallF,StallD,FlushE,
                             ForwardAD,ForwardBD,ForwardAE,ForwardBE);
     //Stage F
-    always_ff @(negedge clk, posedge reset) begin
-        if(reset)begin 
-            instrstate <= 0;
-        end
-        else if(instrstate==1)begin 
-                instrreq<=1; 
-                WaitInstr<=0; 
-                instrstate<=0; 
+    logic [2:0] instrcnt;
+    initial instrcnt = 0;
+    always @(posedge clk)begin
+        case (instrcnt)
+            3'd0: begin
+                instrreq <= 1;
+                instrcnt <= instrcnt + 1;
+                WaitInstr <= 1;
             end
-            else begin 
-                instrreq<=0;
-                if(abort) WaitInstr<=1;
-                else begin 
-                    instrstate<=1;
-                end
-            end
+            3'd1:begin instrcnt <= instrcnt + 1; end
+            3'd2,3'd3,3'd4:instrcnt <= instrcnt + 1; 
+            3'd5:if(abort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
+        endcase
+       
     end
-    // assign FlushF = 0;
     flopenr#(W)    pcreg(clk, reset, ~(StallF|WaitInstr), pcnextF, pcF);
 
     assign  pclow = pcF[9:2];

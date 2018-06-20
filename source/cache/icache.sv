@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module    I_Cache(
+module    icache(
     // control signal
     input   logic           clk,
     input   logic           reset,
@@ -128,7 +128,7 @@ module    I_Cache(
         dram_req_dly    <=    dram_req;
     
     // phisical address of instructions
-    assign    dram_req_addr    =    {2'b0,cpu_addr_dly[31:5],3'b0};
+    assign    dram_req_addr    =    {cpu_addr_dly[31:5],5'b0};
     
     // input signal buffer
     always@(posedge clk)

@@ -49,7 +49,9 @@ module onboard(
 	assign data = show ? showdata:{clks,pclow,3'b0,wreg,check64[7:0]};//disp<->pclow
 	initial cnt=2'b0;
     initial clks = 8'b0;
-    always@(posedge clk) clks <= clks + 1;
+    always@(posedge clk,posedge reset) 
+		if(reset)clks <= 8'b0;
+		else clks <= clks + 1;
 	always@(posedge CLK380)  
 		begin  
 			case(getone)
