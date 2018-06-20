@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module mem#(parameter N = 64, L = 128)(
-    input   logic           clk, 
+    input   logic           clk, reset,
     input   logic [1:0]     memwrite,
     input   logic [N-1:0]   dataadr, writedata,
     input   logic [31:0]    instradr,
@@ -16,13 +16,21 @@ module mem#(parameter N = 64, L = 128)(
     logic [31:0]    word;
     logic [2:0]     instrcnt;
     initial begin
+        abort <= 1;
+        instr <= 32'b0;
+        instrcnt <= 3;
         $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.2/memfile.dat",RAM);
     end
-    assign instr = instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32];
     always @(posedge clk)begin
-        if(instrreq)begin abort<=1;instrcnt<=3;end
-        else if(instrcnt==0) abort<=0;
-        else instrcnt<=instrcnt-1;
+        if(instrreq)begin 
+            abort<=1;
+            instrcnt<=3;
+        end
+        else if(instrcnt==0) begin 
+            abort<=0; 
+            instr <= instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32]; 
+        end
+        else instrcnt <= instrcnt-1;
     end
     assign readdata = {32'b0,word};
     assign check = checka[0] ? RAM[checka[7:1]][31:0] : RAM[checka[7:1]][63:32];
