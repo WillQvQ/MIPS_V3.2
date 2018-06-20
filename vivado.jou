@@ -101,3 +101,75 @@ wait_on_run impl_1
 reset_run synth_1
 launch_runs impl_1 -to_step write_bitstream -jobs 4
 wait_on_run impl_1
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+open_hw
+connect_hw_server
+open_hw_target
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+close_hw
+close_sim
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+open_hw
+connect_hw_server
+open_hw_target
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+close_hw
+open_hw
+connect_hw_server
+open_hw_target
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+wait_on_run impl_1

@@ -35,7 +35,6 @@ module onboard(
     logic [31:0]rx_checkl;
 	logic [7:0] rx_data;
 	logic [7:0] clkshow;
-    logic [7:0] disp;
     logic       we;
 	clkdiv clkdiv(CLK100MHZ,CLK380,CLK48,CLK1_6,CLK0_4);
 	assign sreg = we ? wreg:addr[4:0];
@@ -47,9 +46,8 @@ module onboard(
 	assign clk = clkrun & clken;
 	top top(clk,reset,writedata64,dataadr64,memwrite,readdata64,pclow,sreg,check64,addr,memdata,we,wreg,rx_data,rx_check,rx_checkh,rx_checkl);
 	assign clkshow = clkon ? clks:{sreg[3:0],2'b0,memwrite};
-	assign data = show ? showdata:{disp,clkshow,addr,check64[7:0]};//disp<->pclow
+	assign data = show ? showdata:{clks,pclow,3'b0,wreg,check64[7:0]};//disp<->pclow
 	initial cnt=2'b0;
-	assign tx_buf = pclow;
     initial clks = 8'b0;
     always@(posedge clk) clks <= clks + 1;
 	always@(posedge CLK380)  

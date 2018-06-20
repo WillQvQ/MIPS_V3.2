@@ -52,6 +52,10 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
                             StallF,StallD,FlushE,
                             ForwardAD,ForwardBD,ForwardAE,ForwardBE);
     //Stage F
+    initial begin 
+        WaitInstr<=1; 
+        instrstate<=1;
+    end
     always_ff @(posedge clk, posedge reset) begin
         if(reset)begin 
             instrstate <= 0;

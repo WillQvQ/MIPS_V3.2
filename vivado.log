@@ -3127,3 +3127,217 @@ launch_runs impl_1 -to_step write_bitstream -jobs 4
 Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
 [Wed Jun 20 22:39:02 2018] Launched impl_1...
 Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
+reset_run synth_1
+WARNING: [Vivado 12-1017] Problems encountered:
+1. Failed to delete one or more files in run directory C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1
+
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 22:44:42 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 22:44:42 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+open_hw
+connect_hw_server
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2016.4
+  **** Build date : Jan 23 2017-19:37:29
+    ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+
+
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210292710305A
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+reset_run synth_1
+WARNING: [Vivado 12-1017] Problems encountered:
+1. Failed to delete one or more files in run directory C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1
+
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 22:52:57 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 22:52:57 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+reset_run synth_1
+WARNING: [Vivado 12-1017] Problems encountered:
+1. Failed to delete one or more files in run directory C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1
+
+launch_runs synth_1 -jobs 4
+INFO: [HDL 9-2216] Analyzing SystemVerilog file "C:/Users/will131/Documents/workspace/MIPS_V3.2/source/onboard.sv" into library work [C:/Users/will131/Documents/workspace/MIPS_V3.2/source/onboard.sv:1]
+[Wed Jun 20 23:01:35 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:03:43 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+close_hw
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_sim: Time (s): cpu = 00:00:02 ; elapsed = 00:00:09 . Memory (MB): peak = 1061.172 ; gain = 0.000
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:09:20 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 23:09:20 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+open_hw
+connect_hw_server
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2016.4
+  **** Build date : Jan 23 2017-19:37:29
+    ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+
+
+connect_hw_server: Time (s): cpu = 00:00:00 ; elapsed = 00:00:07 . Memory (MB): peak = 1061.172 ; gain = 0.000
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210292710305A
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+close_hw
+open_hw
+connect_hw_server
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2016.4
+  **** Build date : Jan 23 2017-19:37:29
+    ** Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
+
+
+connect_hw_server: Time (s): cpu = 00:00:01 ; elapsed = 00:00:07 . Memory (MB): peak = 1061.172 ; gain = 0.000
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210292710305A
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/bit/nocache.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:17:10 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 23:17:10 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
+set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
+program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+WARNING: [Labtools 27-3123] The debug hub core was not detected at User Scan Chain 1 or 3.
+Resolution: 
+1. Make sure the clock connected to the debug hub (dbg_hub) core is a free running clock and is active OR
+2. Manually launch hw_server with -e "set xsdb-user-bscan <C_USER_SCAN_CHAIN scan_chain_number>" to detect the debug hub at User Scan Chain of 2 or 4. To determine the user scan chain setting, open the implemented design and use: get_property C_USER_SCAN_CHAIN [get_debug_cores dbg_hub].
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+WARNING: [Labtoolstcl 44-130] No matching hw_ilas were found.
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:24:29 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 23:24:29 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:25:45 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 23:25:45 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 4
+[Wed Jun 20 23:27:10 2018] Launched synth_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/synth_1/runme.log
+[Wed Jun 20 23:27:11 2018] Launched impl_1...
+Run output will be captured here: C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/runme.log

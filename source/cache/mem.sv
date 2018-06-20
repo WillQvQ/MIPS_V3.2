@@ -15,8 +15,9 @@ module mem#(parameter N = 64, L = 128)(
     logic [N-1:0]   RAM [L-1:0];
     logic [31:0]    word;
     logic [2:0]     instrcnt;
-    initial
+    initial begin
         $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.2/memfile.dat",RAM);
+    end
     assign instr = instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32];
     always @(posedge clk)begin
         if(instrreq)begin abort<=1;instrcnt<=3;end
