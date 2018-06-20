@@ -8,9 +8,7 @@ module uart_top(
     input   logic   rx_pin_in,
     input   logic   [63:0]  data,
     output  logic   [7:0]   rx_data,
-    input   logic   [31:0]  rx_check,
-    input   logic   [31:0]  rx_checkh,
-    input   logic   [31:0]  rx_checkl
+    input   logic   [31:0]  rx_check
 );
 logic       rx_done_sig;
 logic [63:0]tx_data;
@@ -61,7 +59,6 @@ end
 assign tx_sig = (f2 & !f1) | rx_done_sig;
 always @(posedge tx_sig)
     if(rx_done_sig)begin
-        // tx_data[63:32] = rx_checkh;
         tx_data[31:0] = rx_check;
         len = 4'b100;
     end

@@ -16,8 +16,10 @@ module simulation();
     logic [31:0]memdata;
     logic [31:0]instradr,instr;
     logic [4:0] wreg;
+    logic [31:0]rx_check;
+	logic [7:0] rx_data;
     logic       we;
-    top top(clk,reset,writedata,dataadr,memwrite,readdata,pclow,checka,check,addr,memdata,we,wreg);
+    top top(clk,reset,writedata,dataadr,memwrite,readdata,pclow,checka,check,we,wreg,rx_data,rx_check,instr);
     
     initial begin
         cnt <= 7'b0;
