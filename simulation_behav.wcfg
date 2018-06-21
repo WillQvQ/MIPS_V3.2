@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="244200001fs"></ZoomEndTime>
-      <Cursor1Time time="47200000fs"></Cursor1Time>
+      <ZoomEndTime time="373441961fs"></ZoomEndTime>
+      <Cursor1Time time="35305000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="195"></NameColumnWidth>
-      <ValueColumnWidth column_width="55"></ValueColumnWidth>
+      <NameColumnWidth column_width="190"></NameColumnWidth>
+      <ValueColumnWidth column_width="54"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="45" />
+   <WVObjectSize size="38" />
    <wvobject fp_name="/simulation/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -88,14 +88,6 @@
       <obj_property name="ElementShortName">wa3[4:0]</obj_property>
       <obj_property name="ObjectShortName">wa3[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mem/instrcnt" type="array">
-      <obj_property name="ElementShortName">instrcnt[4:0]</obj_property>
-      <obj_property name="ObjectShortName">instrcnt[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mem/instrreq" type="logic">
-      <obj_property name="ElementShortName">instrreq</obj_property>
-      <obj_property name="ObjectShortName">instrreq</obj_property>
-   </wvobject>
    <wvobject fp_name="/simulation/top/mips/memwriteM" type="array">
       <obj_property name="ElementShortName">memwriteM[1:0]</obj_property>
       <obj_property name="ObjectShortName">memwriteM[1:0]</obj_property>
@@ -156,25 +148,9 @@
       <obj_property name="ElementShortName">zeroimmE[63:0]</obj_property>
       <obj_property name="ObjectShortName">zeroimmE[63:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/icache/I_SRAM_data" type="array">
-      <obj_property name="ElementShortName">I_SRAM_data[275:0]</obj_property>
-      <obj_property name="ObjectShortName">I_SRAM_data[275:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/simulation/top/mips/instr" type="array">
       <obj_property name="ElementShortName">instr[31:0]</obj_property>
       <obj_property name="ObjectShortName">instr[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/icache/cpu_addr_dly" type="array">
-      <obj_property name="ElementShortName">cpu_addr_dly[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cpu_addr_dly[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/icache/hit" type="logic">
-      <obj_property name="ElementShortName">hit</obj_property>
-      <obj_property name="ObjectShortName">hit</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/icache/cpu_addr" type="array">
-      <obj_property name="ElementShortName">cpu_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">cpu_addr[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/simulation/top/mips/datapath/abort" type="logic">
       <obj_property name="ElementShortName">abort</obj_property>
@@ -188,16 +164,12 @@
       <obj_property name="ElementShortName">WaitInstr</obj_property>
       <obj_property name="ObjectShortName">WaitInstr</obj_property>
    </wvobject>
+   <wvobject fp_name="/simulation/top/memno/instrcnt" type="array">
+      <obj_property name="ElementShortName">instrcnt[4:0]</obj_property>
+      <obj_property name="ObjectShortName">instrcnt[4:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/simulation/top/mips/datapath/instrcnt" type="array">
       <obj_property name="ElementShortName">instrcnt[2:0]</obj_property>
       <obj_property name="ObjectShortName">instrcnt[2:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/icache/hit" type="logic">
-      <obj_property name="ElementShortName">hit</obj_property>
-      <obj_property name="ObjectShortName">hit</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/icache/ins_req_dly" type="logic">
-      <obj_property name="ElementShortName">ins_req_dly</obj_property>
-      <obj_property name="ObjectShortName">ins_req_dly</obj_property>
    </wvobject>
 </wave_config>

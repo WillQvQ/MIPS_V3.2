@@ -1,20 +1,20 @@
 `timescale 1ns / 1ps
 
-module mem#(parameter N = 64, L = 128)(
+module memno#(parameter N = 64, L = 128)(
     input   logic           clk, reset,
     input   logic [1:0]     memwrite,
     input   logic [N-1:0]   dataadr, writedata,
     input   logic [31:0]    instradr,
     output  logic [31:0]    instr,
     input   logic           instrreq,
-    output  logic           hit,abort,
+    output  logic           val,abort,
     output  logic [N-1:0]   readdata,
     input   logic [7:0]     checka,
     output  logic [31:0]    check
 );
     logic [N-1:0]   RAM [L-1:0];
     logic [31:0]    word;
-    logic [2:0]     instrcnt;
+    logic [4:0]     instrcnt;
     initial begin
         abort <= 1;
         instr <= 32'b0;
@@ -22,15 +22,25 @@ module mem#(parameter N = 64, L = 128)(
         $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.2/memfile.dat",RAM);
     end
     always @(posedge clk)begin
-        if(instrreq)begin 
-            abort<=1;
-            instrcnt<=3;
+        if(instrreq) begin
+            case(instrcnt)
+                5'd1:begin 
+                    instrcnt <= instrcnt + 1;
+                    val <= 1;
+                end
+                5'd2:begin 
+                    instrcnt <= instrcnt + 1;
+                    abort <= 1;
+                end
+                5'd20:begin
+                    instrcnt<=0;
+                    instr <= instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32]; 
+                    val <= 0;
+                    abort <= 0;
+                end
+                default :instrcnt <= instrcnt + 1;
+            endcase        
         end
-        else if(instrcnt==0) begin 
-            abort<=0; 
-            instr <= instradr[2] ? RAM[instradr[31:3]][31:0] : RAM[instradr[31:3]][63:32]; 
-        end
-        else instrcnt <= instrcnt-1;
     end
     assign readdata = {32'b0,word};
     assign check = checka[0] ? RAM[checka[7:1]][31:0] : RAM[checka[7:1]][63:32];
