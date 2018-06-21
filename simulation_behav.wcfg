@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="373441961fs"></ZoomEndTime>
-      <Cursor1Time time="35305000fs"></Cursor1Time>
+      <ZoomStartTime time="286860000fs"></ZoomStartTime>
+      <ZoomEndTime time="339910001fs"></ZoomEndTime>
+      <Cursor1Time time="306410000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="190"></NameColumnWidth>
+      <NameColumnWidth column_width="186"></NameColumnWidth>
       <ValueColumnWidth column_width="54"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="38" />
+   <WVObjectSize size="25" />
    <wvobject fp_name="/simulation/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -96,80 +96,28 @@
       <obj_property name="ElementShortName">pcF[31:0]</obj_property>
       <obj_property name="ObjectShortName">pcF[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/instrstate" type="array">
-      <obj_property name="ElementShortName">instrstate[1:0]</obj_property>
-      <obj_property name="ObjectShortName">instrstate[1:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/instrF" type="array">
-      <obj_property name="ElementShortName">instrF[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instrF[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srcaE" type="array">
-      <obj_property name="ElementShortName">srcaE[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srcaE[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srcbE" type="array">
-      <obj_property name="ElementShortName">srcbE[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srcbE[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srca1D" type="array">
-      <obj_property name="ElementShortName">srca1D[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srca1D[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srcb1D" type="array">
-      <obj_property name="ElementShortName">srcb1D[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srcb1D[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srca1E" type="array">
-      <obj_property name="ElementShortName">srca1E[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srca1E[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/srcb1E" type="array">
-      <obj_property name="ElementShortName">srcb1E[63:0]</obj_property>
-      <obj_property name="ObjectShortName">srcb1E[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/instrD" type="array">
-      <obj_property name="ElementShortName">instrD[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instrD[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/signimmD" type="array">
-      <obj_property name="ElementShortName">signimmD[63:0]</obj_property>
-      <obj_property name="ObjectShortName">signimmD[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/zeroimmD" type="array">
-      <obj_property name="ElementShortName">zeroimmD[63:0]</obj_property>
-      <obj_property name="ObjectShortName">zeroimmD[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/signimmE" type="array">
-      <obj_property name="ElementShortName">signimmE[63:0]</obj_property>
-      <obj_property name="ObjectShortName">signimmE[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/zeroimmE" type="array">
-      <obj_property name="ElementShortName">zeroimmE[63:0]</obj_property>
-      <obj_property name="ObjectShortName">zeroimmE[63:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/instr" type="array">
-      <obj_property name="ElementShortName">instr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instr[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/abort" type="logic">
-      <obj_property name="ElementShortName">abort</obj_property>
-      <obj_property name="ObjectShortName">abort</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/instrreq" type="logic">
-      <obj_property name="ElementShortName">instrreq</obj_property>
-      <obj_property name="ObjectShortName">instrreq</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/WaitInstr" type="logic">
-      <obj_property name="ElementShortName">WaitInstr</obj_property>
-      <obj_property name="ObjectShortName">WaitInstr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/memno/instrcnt" type="array">
-      <obj_property name="ElementShortName">instrcnt[4:0]</obj_property>
-      <obj_property name="ObjectShortName">instrcnt[4:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/simulation/top/mips/datapath/instrcnt" type="array">
       <obj_property name="ElementShortName">instrcnt[2:0]</obj_property>
       <obj_property name="ObjectShortName">instrcnt[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/abort" type="logic">
+      <obj_property name="ElementShortName">abort</obj_property>
+      <obj_property name="ObjectShortName">abort</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/datacnt" type="array">
+      <obj_property name="ElementShortName">datacnt[4:0]</obj_property>
+      <obj_property name="ObjectShortName">datacnt[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/datareq" type="logic">
+      <obj_property name="ElementShortName">datareq</obj_property>
+      <obj_property name="ObjectShortName">datareq</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/word" type="array">
+      <obj_property name="ElementShortName">word[31:0]</obj_property>
+      <obj_property name="ObjectShortName">word[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/dataadr" type="array">
+      <obj_property name="ElementShortName">dataadr[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dataadr[63:0]</obj_property>
    </wvobject>
 </wave_config>

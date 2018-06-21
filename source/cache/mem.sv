@@ -3,6 +3,7 @@
 module mem#(parameter N = 64, L = 128)(
     input   logic           clk, reset,
     input   logic [1:0]     memwrite,
+    input   logic           datareq,
     input   logic [N-1:0]   dataadr, writedata,
     input   logic [31:0]    instradr,
     output  logic [31:0]    instr,
@@ -15,10 +16,13 @@ module mem#(parameter N = 64, L = 128)(
     logic [N-1:0]   RAM [L-1:0];
     logic [31:0]    word;
     logic [4:0]     instrcnt;
+    logic [4:0]     datacnt;
     logic [31:0]    instradr2;
     assign instradr2 = instradr[31:2] + instrcnt - 1;
     initial begin
         instrcnt = 0;
+        datacnt = 0;
+        abort = 0;
         $readmemh("C:/Users/will131/Documents/workspace/MIPS_V3.2/memfile.dat",RAM);
     end
     always @(posedge clk)begin
@@ -37,7 +41,22 @@ module mem#(parameter N = 64, L = 128)(
             end 
         end
     end
-    assign readdata = {32'b0,word};
+    always @(negedge clk)begin
+        if(datareq) begin
+            if(datacnt==0)begin
+                abort <= 1;
+                datacnt <= 1;
+            end
+            else if(datacnt==9)begin
+                datacnt <= 0;
+                abort <= 0;
+            end
+            else begin
+                readdata <= {32'b0,word}; 
+                datacnt <= datacnt + 1;
+            end 
+        end
+    end
     assign check = checka[0] ? RAM[checka[7:1]][31:0] : RAM[checka[7:1]][63:32];
     assign word = dataadr[2] ? RAM[dataadr[N-1:3]][31:0] : RAM[dataadr[N-1:3]][63:32];
     always @(posedge clk)

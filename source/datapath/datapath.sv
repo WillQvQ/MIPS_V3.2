@@ -21,8 +21,9 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     output  logic[N-1:0]check,
     output logic  [4:0] writeregW,
     output  logic       instrreq,
-    input   logic       hit,abort
+    input   logic       instrabort
 );
+    logic           clk;
     logic           StallF,StallD,ForwardAD,ForwardBD,FlushD;
     logic [1:0]     ForwardAE,ForwardBE;
     logic [W-1:0]   pcnextF,pcF,pc4F,pc4D,pcbranchD;
@@ -63,7 +64,7 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
             end
             3'd1:begin instrcnt <= instrcnt + 1; end
             3'd2,3'd3,3'd4:instrcnt <= instrcnt + 1; 
-            3'd5:if(abort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
+            3'd5:if(instrabort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
         endcase
        
     end
