@@ -21,7 +21,9 @@ module simulation();
     logic [31:0]rx_checkh;
     logic [31:0]rx_checkl;
 	logic [7:0] rx_data;
-    top top(clk,reset,writedata,dataadr,memwrite,readdata,pclow,checka,check,addr,memdata,we,wreg,rx_data,rx_check,rx_checkh,rx_checkl);
+    logic [127:0]tx_show;
+    logic [4:0]  show_len;
+    top top(clk,reset,writedata,dataadr,memwrite,readdata,pclow,checka,check,addr,memdata,we,wreg,tx_show,show_len);
     
     initial begin
         cnt <= 7'b0;

@@ -30,11 +30,10 @@ module onboard(
     logic [31:0]showdata;
     logic [31:0]memdata;
 	logic [4:0] wreg,sreg;
-    logic [31:0]rx_check;
-    logic [31:0]rx_checkh;
-    logic [31:0]rx_checkl;
 	logic [7:0] rx_data;
 	logic [7:0] clkshow;
+	logic [127:0] tx_show;
+	logic [4:0] show_len;
     logic       we;
 	clkdiv clkdiv(CLK100MHZ,CLK380,CLK48,CLK1_6,CLK0_4);
 	assign sreg = we ? wreg:addr[4:0];
@@ -44,7 +43,7 @@ module onboard(
 	assign writedata = high1low ? writedata64[63:32] : writedata64[31:0];
 	assign clkrun = quick ? CLK1_6:CLK0_4;
 	assign clk = clkrun & clken;
-	top top(clk,reset,writedata64,dataadr64,memwrite,readdata64,pclow,sreg,check64,addr,memdata,we,wreg,rx_data,rx_check,rx_checkh,rx_checkl);
+	top top(clk,reset,writedata64,dataadr64,memwrite,readdata64,pclow,sreg,check64,addr,memdata,we,wreg,tx_show,show_len);
 	assign clkshow = clkon ? clks:{sreg[3:0],2'b0,memwrite};
 	assign data = show ? showdata:{clks,pclow,3'b0,wreg,check64[7:0]};//disp<->pclow
 	initial cnt=2'b0;
@@ -96,6 +95,5 @@ module onboard(
 	logic rst_n;
 	assign rst_n = ~reset;	
 	
-	uart_top uart_top(CLK100MHZ,clk,rst_n,tx_pin_out,rx_pin_in,
-	{clks,pclow,6'b0,memwrite,3'b0,wreg,check64[31:0]},rx_data,rx_check,rx_checkh,rx_checkl);
+	uart_top uart_top(CLK100MHZ,clk,rst_n,tx_pin_out,rx_pin_in,tx_show,show_len,rx_data);
 endmodule  

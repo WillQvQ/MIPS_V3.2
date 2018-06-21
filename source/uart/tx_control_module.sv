@@ -3,17 +3,17 @@
 module tx_control_module(
     input   logic   clk, rst_n,
     input   logic   tx_sig,
-    input   logic   [63:0] tx_data,
+    input   logic   [127:0] tx_data,
     output  logic   tx_pin_out,
-    input   logic   [3:0] len
+    input   logic   [4:0] len
 );
 
 logic bps_clk;
 logic [3:0]i;
-logic [3:0]cnt;
+logic [4:0]cnt;
 logic count_sig;
 initial i <= 4'd0;
-initial cnt <= 4'd0;
+initial cnt <= 5'd0;
 always@(posedge clk,negedge rst_n)
 if(!rst_n)
     begin

@@ -6,17 +6,16 @@ module top#(parameter N = 64)(
     output  logic [1:0]     memwrite,
     output  logic [N-1:0]   readdata,
     output  logic [7:0]     pclow,
-    input   logic [4:0]     checkra,
+    input   logic [4:0]     checkra0,
     output  logic [N-1:0]   checkr,
     input   logic [7:0]     checkma,
     output  logic [31:0]    checkm,
     output  logic           regwriteW,
     output  logic [4:0]     writeregW,
-    input   logic [7:0]     rx_data,
-    output  logic [31:0]    rx_check,
-    output  logic [31:0]    rx_checkh,
-    output  logic [31:0]    rx_checkl
+    output  logic [127:0]   tx_show,
+    output  logic [4:0]     show_len
 );
+    logic [4:0] checkra;
     logic       ihit,dhit,dataabort,instrabort,instrreq;
     logic       readval0,instrval0,writeval0;
     logic       datareq,readreq0,instrreq0,writereq0;
@@ -41,4 +40,49 @@ module top#(parameter N = 64)(
                 readreq0,readadr0,readdata0,readval0,
                 dataadr[31:0],datareq,memwrite[0],writedata[31:0],readdata[31:0],dhit,dataabort);
     assign readdata[63:32] = 32'b0;
+    //演示部分
+    assign checkra = writeregW;
+    logic [7:0] clks;
+    initial clks = 8'b0;
+    always@(posedge clk,posedge reset) 
+		if(reset)clks <= 8'b0;
+		else clks <= clks + 1;
+    always_ff @(negedge clk, posedge reset) begin
+        if(reset)begin
+            tx_show <= 16'd0;
+            show_len <= 5'd2;
+        end
+        else if(instrreq & instrval0)begin
+            tx_show <= {8'h20,clks,pclow,8'd0,instradr,instradr0,instr0};//8+8+8+8+32+32+32 = 128
+            show_len <= 5'd16;
+        end
+        else if(instrreq)begin
+            tx_show <= {8'h10,clks,pclow,8'd0,instradr,instr}; // 8+8+16+32+32 = 96
+            show_len <= 5'd12;
+        end
+        else if(datareq & ~memwrite[0] & readval0) begin
+            tx_show <= {8'h40,clks,pclow,8'd0,dataadr[31:0],readadr0,readdata0}; // 8+8+8+8+32+32+32 = 128
+            show_len <= 5'd16;
+        end
+        else if(datareq & ~memwrite[0]) begin
+            tx_show <= {8'h30,clks,pclow,8'd0,dataadr[31:0],readdata[31:0]}; // 8+8+8+8+32+32 = 96
+            show_len <= 5'd12;
+        end
+        else if(datareq & memwrite[0] & writeadr0) begin
+            tx_show <= {8'h60,clks,pclow,8'd0,dataadr[31:0],writeadr0,writedata0}; // 8+8+8+8+32+32+32 = 128
+            show_len <= 5'd16;
+        end
+        else if(datareq & memwrite[0]) begin
+            tx_show <= {8'h50,clks,pclow,8'd0,dataadr[31:0],writedata[31:0]}; // 8+8+8+8+32+32 = 96
+            show_len <= 5'd12;
+        end
+        else if(regwriteW)begin
+            tx_show <= {8'h70,clks,pclow,3'd0,writeregW,checkr[31:0]};//8+8+8+8+32 = 64
+            show_len <= 5'd8;
+        end
+        else begin
+            tx_show <= {8'h80,clks,pclow};//8+8+8 = 24
+            show_len <= 5'd3;
+        end
+    end
 endmodule
