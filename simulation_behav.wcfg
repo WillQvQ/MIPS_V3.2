@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="286860000fs"></ZoomStartTime>
-      <ZoomEndTime time="339910001fs"></ZoomEndTime>
-      <Cursor1Time time="306410000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="533500001fs"></ZoomEndTime>
+      <Cursor1Time time="290000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="186"></NameColumnWidth>
+      <NameColumnWidth column_width="180"></NameColumnWidth>
       <ValueColumnWidth column_width="54"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="25" />
+   <WVObjectSize size="32" />
    <wvobject fp_name="/simulation/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -119,5 +119,33 @@
    <wvobject fp_name="/simulation/top/mem/dataadr" type="array">
       <obj_property name="ElementShortName">dataadr[63:0]</obj_property>
       <obj_property name="ObjectShortName">dataadr[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mem/RAM" type="array">
+      <obj_property name="ElementShortName">RAM[127:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM[127:0][63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/instrabort" type="logic">
+      <obj_property name="ElementShortName">instrabort</obj_property>
+      <obj_property name="ObjectShortName">instrabort</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/ins_req_delay" type="logic">
+      <obj_property name="ElementShortName">ins_req_delay</obj_property>
+      <obj_property name="ObjectShortName">ins_req_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/hit" type="logic">
+      <obj_property name="ElementShortName">hit</obj_property>
+      <obj_property name="ObjectShortName">hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/mem_req" type="logic">
+      <obj_property name="ElementShortName">mem_req</obj_property>
+      <obj_property name="ObjectShortName">mem_req</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/mem_req_delay" type="logic">
+      <obj_property name="ElementShortName">mem_req_delay</obj_property>
+      <obj_property name="ObjectShortName">mem_req_delay</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mips/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
 </wave_config>

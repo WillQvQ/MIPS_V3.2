@@ -66,8 +66,8 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
             3'd2,3'd3,3'd4:instrcnt <= instrcnt + 1; 
             3'd5:if(instrabort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
         endcase
-       
     end
+    
     flopenr#(W)    pcreg(clk, reset, ~(StallF|WaitInstr), pcnextF, pcF);
 
     assign  pclow = pcF[9:2];
