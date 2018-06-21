@@ -1,320 +1,280 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Engineer:      朱笛
-// Module Name:    dcache
-// Create Date:    09:42 06/10/2014
-//
-// Design Name: 	 直接相连16KB dcache
-//             n = 14, k = 5;
-//             tag = 18'b[31:14] index = 9'b[13:5] offset = 5'b[4:2];
-//
-// Cache写策略:     写回法+写分配法
-//	
-//////////////////////////////////////////////////////////////////////////////////
-module	dcache(
-	// control signal
-	input            clk,        // cache clk, the same as cpu
-	input            reset,        	// cache reset
-	// dram side(write)
-	output         	dram_wr_req,    //	request writing data to dram
-	output     [31:0]	dram_wr_addr,    //	write data address
-	output reg	[31:0]	dram_wr_data,    //	write data
-	input        	dram_wr_val,    //	write a word valid
-	// dram side(read)
-	output         	dram_rd_req,    //	request reading data from dram
-	output     [31:0]	dram_rd_addr,    //	read data address
-	input    	[31:0]	dram_rd_data,    //	read data
-	input            dram_rd_val,    //	read a word valid
-	// cpu side
-	input    	[31:0]	cpu_addr,    	// cpu address
-	input            data_req,    	// data request
-	input            wren,        	// write/read
-	input    	[31:0]	cpu_wr_data,    // write data come from cpu
-	output    [31:0]	cpu_rd_data,    // read data and send to cpu
-	output        	hit,        	// cache hit or miss
-	output        	ram_abort    	// waiting for cache
-	);
-	
-	parameter    BLOCK_SIZE	=	8;
-	parameter    CPU_EXEC    =	0;
-	parameter    WR_DRAM    =	1;
-	parameter    RD_DRAM    =	2;
-	
-	
-	reg    [1:0]    	state;            // FSM
-	wire    [275:0]    D_SRAM_block;        // { val(1), dirty(1), tag(18), data(8*32) }
-	reg    [31:0]    D_SRAM_word;        // one word of the block
-	wire            dirty;            // dirty bit
-	reg    [17:0]    tag_dly;            // data cache block tag bake up
-	reg    [31:0]    cpu_addr_dly;        // cpu address bake up
-	reg    [31:0]    cpu_wr_data_dly;    	// cpu write data bake up
-	reg            cpu_wr_wait_flag;    	// cpu write wait flag
-	wire            dram_wr_ready;        // dram write data ready
-	wire            dram_rd_ready;        // dram read data ready
-	reg            dram_rd_req_dly;    	// reading request delay
-	reg    [31:0]    wr_counter,rd_counter;	// counter for block
-	reg    [31:0]    dram_data_shift[7:0];	// 8*32 shift registers
+
+module    dcache(
+    input   logic           clk,       
+    input   logic           reset,          
+    output  logic           mem_write_req,
+    output  logic   [31:0]  mem_write_addr,
+    output  logic   [31:0]  mem_write_data,
+    input   logic           mem_write_val,
+    output  logic           mem_read_req,
+    output  logic   [31:0]  mem_read_addr,
+    input   logic   [31:0]  mem_read_data,
+    input   logic           mem_read_val,
+    input   logic   [31:0]  dataaddr,
+    input   logic           datareq,
+    input   logic           wren,
+    input   logic   [31:0]  writedata,
+    output  logic   [31:0]  readdata,
+    output  logic           hit,
+    output  logic           abort_out
+  );
     
-	reg    [275:0]    D_SRAM[7:0];        // the data_cache storage space
-	
-	
-	// phisical write/read address for dram
-	assign	dram_wr_addr	=	{2'b0,tag_dly,cpu_addr_dly[13:5],3'b0};
-	assign	dram_rd_addr	=	{2'b0,cpu_addr_dly[31:5],3'b0};
+    parameter    BLOCK_SIZE =    8;
     
-	// cpu/dram writes data_cache
-	always@(posedge clk)
-	begin
-    if(reset)
-        begin
-            D_SRAM[0] <= 0;
-            D_SRAM[1] <= 0;
-            D_SRAM[2] <= 0;
-            D_SRAM[3] <= 0;
-            D_SRAM[4] <= 0;
-            D_SRAM[5] <= 0;
-            D_SRAM[6] <= 0;
-            D_SRAM[7] <= 0;
+    logic   [1:0]   state;            
+    logic   [281:0] block_data; 
+    //val:1 dirty:1 tag:24 data:256
+    logic   [31:0]  word;   
+    logic           dirty;  
+    logic   [23:0]  tag_delay;  
+    logic   [31:0]  dataaddr_delay;
+    logic   [31:0]  writedata_delay;
+    logic           cpu_write_wait_flag;
+    logic           mem_write_ready;
+    logic           mem_read_ready;
+    logic           mem_read_req_delay;
+    logic   [31:0]  write_counter,read_counter;
+    logic   [31:0]  dram_data_shift[7:0]; 
+    logic   [281:0] dcache[7:0];
+    
+    
+    assign  mem_write_addr  =   {tag_delay,block_id_delay,5'b0};
+    assign  mem_read_addr   =   {dataaddr_delay[31:5],5'b0};
+    
+    assign  block_id_delay  =   dataaddr_delay[7:5];
+    assign  block_id        =   dataaddr[7:5];
+
+    always@(posedge clk)begin
+        if(reset) begin
+            dcache[0] <= 0;
+            dcache[1] <= 0;
+            dcache[2] <= 0;
+            dcache[3] <= 0;
+            dcache[4] <= 0;
+            dcache[5] <= 0;
+            dcache[6] <= 0;
+            dcache[7] <= 0;
         end
-    else if(dram_rd_ready)	// dram write cache block
-    begin
-    	// add your codes here...
-    	// 将主存的数据块写入D-Cache的某一数据块(xx_dly)
-    	D_SRAM[cpu_addr_dly[13:5]]	<=	{1'b1, 1'b0, cpu_addr_dly[31:14],
-                            dram_data_shift[7],dram_data_shift[6],
-                            dram_data_shift[5],dram_data_shift[4],
-                            dram_data_shift[3],dram_data_shift[2],
-                            dram_data_shift[1],dram_data_shift[0]};
+        else if(mem_read_ready) begin
+            // 当从memory读取完毕时，把位移寄存器里的数据写入块
+            dcache[block_id_delay]    <=    
+                {1'b1, 1'b0, dataaddr_delay[31:8],
+                dram_data_shift[7],dram_data_shift[6],
+                dram_data_shift[5],dram_data_shift[4],
+                dram_data_shift[3],dram_data_shift[2],
+                dram_data_shift[1],dram_data_shift[0]};
+        end
+        else if(hit & datareq & wren) begin
+            // 缓存命中，直接写入cache块中
+            case(dataaddr[4:2])
+                0:      dcache[block_id][31:0]    <= writedata;
+                1:      dcache[block_id][63:32]   <= writedata;
+                2:      dcache[block_id][95:64]   <= writedata;
+                3:      dcache[block_id][127:96]  <= writedata;
+                4:      dcache[block_id][159:128] <= writedata;
+                5:      dcache[block_id][191:160] <= writedata;
+                6:      dcache[block_id][223:192] <= writedata;
+                7:      dcache[block_id][255:224] <= writedata;
+                default:dcache[block_id] <= dcache[block_id];
+            endcase
+            dcache[block_id][280]   <=  1;
+        end
+        else if(cpu_write_wait_flag & mem_read_req_delay & ~mem_read_req)begin
+            // 发生缺失，延后写入
+            case(dataaddr_delay[4:2])
+                0:      dcache[block_id_delay][31:0]    <= writedata_delay;
+                1:      dcache[block_id_delay][63:32]   <= writedata_delay;
+                2:      dcache[block_id_delay][95:64]   <= writedata_delay;
+                3:      dcache[block_id_delay][127:96]  <= writedata_delay;
+                4:      dcache[block_id_delay][159:128] <= writedata_delay;
+                5:      dcache[block_id_delay][191:160] <= writedata_delay;
+                6:      dcache[block_id_delay][223:192] <= writedata_delay;
+                7:      dcache[block_id_delay][255:224] <= writedata_delay;
+                default:dcache[block_id_delay]  <= dcache[block_id_delay];
+            endcase
+            dcache[block_id_delay][280] <=  1;
+        end
     end
-    else if( hit & data_req & wren )
-    begin
-    	// wirte dirty bit
-    	D_SRAM[cpu_addr[13:5]][274]	<=	1'b1;
-    	// add your codes here...
-    	// 正常命中情况下，CPU向D-Cache某个块的写入一个字
-    	case(cpu_addr[4:2])
-        0: D_SRAM[cpu_addr[13:5]][31:0]    <= cpu_wr_data;
-        1: D_SRAM[cpu_addr[13:5]][63:32]   <= cpu_wr_data;
-        2: D_SRAM[cpu_addr[13:5]][95:64]   <= cpu_wr_data;
-        3: D_SRAM[cpu_addr[13:5]][127:96]  <= cpu_wr_data;
-        4: D_SRAM[cpu_addr[13:5]][159:128] <= cpu_wr_data;
-        5: D_SRAM[cpu_addr[13:5]][191:160] <= cpu_wr_data;
-        6: D_SRAM[cpu_addr[13:5]][223:192] <= cpu_wr_data;
-        7: D_SRAM[cpu_addr[13:5]][255:224] <= cpu_wr_data;
-        default:D_SRAM[cpu_addr[13:5]] <= D_SRAM[cpu_addr[13:5]];
-    	endcase
-    end
-    else if( cpu_wr_wait_flag & ( {dram_rd_req_dly,dram_rd_req} == 2'b10 ) )
-    begin
-    	// wirte dirty bit
-    	D_SRAM[cpu_addr_dly[13:5]][274]	<=	1'b1;
-    	// add your codes here...
-    	// 发生缺失，将目标数据块搬入Cache后，使能CPU之前，向D-Cache写入原数据cpu_wr_data的备份（xx_dly）
-    	case(cpu_addr_dly[4:2])
-        0: D_SRAM[cpu_addr_dly[13:5]][31:0]    <= cpu_wr_data_dly;
-        1: D_SRAM[cpu_addr_dly[13:5]][63:32]   <= cpu_wr_data_dly;
-        2: D_SRAM[cpu_addr_dly[13:5]][95:64]   <= cpu_wr_data_dly;
-        3: D_SRAM[cpu_addr_dly[13:5]][127:96]  <= cpu_wr_data_dly;
-        4: D_SRAM[cpu_addr_dly[13:5]][159:128] <= cpu_wr_data_dly;
-        5: D_SRAM[cpu_addr_dly[13:5]][191:160] <= cpu_wr_data_dly;
-        6: D_SRAM[cpu_addr_dly[13:5]][223:192] <= cpu_wr_data_dly;
-        7: D_SRAM[cpu_addr_dly[13:5]][255:224] <= cpu_wr_data_dly;
-        default:D_SRAM[cpu_addr_dly[13:5]] <= D_SRAM[cpu_addr_dly[13:5]];
-    	endcase
-    end
-	end
 
-	// data_cache writes dram
-	always@(posedge clk)
-    if(reset)
-    	dram_wr_data	<=	0;
-    else if( dram_wr_req )
-    begin
-    	// add your codes here...
-    	// 取出D-Cache中想要的块，逐字赋值给dram_wr_data写入主存
-    	case(wr_counter[2:0])
-        0:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][31:0];
-        1:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][63:32];
-        2:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][95:64];
-        3:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][127:96];
-        4:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][159:128];
-        5:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][191:160];
-        6:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][223:192];
-        7:	dram_wr_data <= D_SRAM[cpu_addr_dly[13:5]][255:224];
-        default:dram_wr_data	<= D_SRAM[cpu_addr_dly[13:5]][31:0];
-    	endcase
+    // 从cache写入memory
+    always@(posedge clk)
+        if(reset)
+            mem_write_data  <=  0;
+        else if(mem_write_req) begin
+            case(write_counter[2:0])
+                0:      mem_write_data <= dcache[block_id_delay][31:0];
+                1:      mem_write_data <= dcache[block_id_delay][63:32];
+                2:      mem_write_data <= dcache[block_id_delay][95:64];
+                3:      mem_write_data <= dcache[block_id_delay][127:96];
+                4:      mem_write_data <= dcache[block_id_delay][159:128];
+                5:      mem_write_data <= dcache[block_id_delay][191:160];
+                6:      mem_write_data <= dcache[block_id_delay][223:192];
+                7:      mem_write_data <= dcache[block_id_delay][255:224];
+                default:mem_write_data <= dcache[block_id_delay][31:0];
+            endcase
+        end
+    
+    // 从cache读到CPU  
+    assign    readdata    =    word;
+    assign    block_data  =    dcache[block_id];
+    
+    always@(posedge clk) begin
+        if(reset)
+            word <= 0;
+        else if(hit & datareq & ~wren) begin
+            case(dataaddr[4:2])
+                0:      word <= block_data[31:0];
+                1:      word <= block_data[63:32];
+                2:      word <= block_data[95:64];
+                3:      word <= block_data[127:96];
+                4:      word <= block_data[159:128];
+                5:      word <= block_data[191:160];
+                6:      word <= block_data[223:192];
+                7:      word <= block_data[255:224];
+                default:word <= block_data[31:0];
+            endcase
+        end
     end
-	
-	// cpu read data_cache    
-	assign	cpu_rd_data    =	D_SRAM_word;
-	assign	D_SRAM_block	=	D_SRAM[cpu_addr[13:5]];
-	
-	always@(posedge clk)
-	begin
-    if(reset)
-    	D_SRAM_word <= 0;
-    else if( hit & data_req & ~wren )
-    begin
-    	// add your codes here...
-    	// 从目标块D_SRAM_block中取出正确的字D_SRAM_word，用于CPU读
-    	case(cpu_addr[4:2])
-        0:	D_SRAM_word <= D_SRAM_block[31:0];
-        1:	D_SRAM_word <= D_SRAM_block[63:32];
-        2:	D_SRAM_word <= D_SRAM_block[95:64];
-        3:	D_SRAM_word <= D_SRAM_block[127:96];
-        4:	D_SRAM_word <= D_SRAM_block[159:128];
-        5:	D_SRAM_word <= D_SRAM_block[191:160];
-        6:	D_SRAM_word <= D_SRAM_block[223:192];
-        7:	D_SRAM_word <= D_SRAM_block[255:224];
-        default:D_SRAM_word <= D_SRAM_block[31:0];
-    	endcase
-    end
-	end
-	
-	// set hit and dirty bit(if the block has been changed by cpu)
-	assign	hit = D_SRAM_block[275] & (cpu_addr[31:14]==D_SRAM_block[273:256]);	
-	assign	dirty	=	D_SRAM_block[274];
+    
+    // 控制部分
 
-	// write/read data_cache miss, waiting...
-	assign	ram_abort = ( dram_wr_req || dram_rd_req || dram_rd_req_dly );
-	
-	// data_cache state machine
-	always@(posedge clk)
-	begin
-    if(reset)
-    	state	<=	CPU_EXEC;
-    else
-    	case(state)
-        CPU_EXEC:if( ~hit & dirty & data_req )	// dirty block write back to dram
-            	state	<=	WR_DRAM;
-            else if( ~hit & data_req )       // request new block from dram
-            	state	<=	RD_DRAM;
-            else
-            	state	<=	CPU_EXEC;
-        WR_DRAM:if(dram_wr_ready)
-            	state	<=	RD_DRAM;
-            else
-            	state	<=	WR_DRAM;
-        RD_DRAM:if(dram_rd_ready)
-            	state	<=	CPU_EXEC;	
-            else
-            	state	<=	RD_DRAM;
-        default:	state	<=	CPU_EXEC;	
-    	endcase
-	end
-	
-	// dram write/read request
-	assign	dram_wr_req	=	( WR_DRAM == state );
-	assign	dram_rd_req	=	( RD_DRAM == state );
-	
-	// dram read request delay
-	always@(posedge clk)
-    dram_rd_req_dly	<=	dram_rd_req;
-	
-	// cpu tag bake up
-	always@(posedge clk)
-	begin
-    if( reset )
-    	tag_dly	<=	0;
-    else if( ( ~hit & dirty & data_req ) & ~dram_wr_req & ~dram_rd_req )
-    	tag_dly	<=	D_SRAM_block[273:256];
-	end
+    assign  hit     =   block_data[281] & (dataaddr[31:8]==block_data[279:256]);    
+    assign  dirty   =   block_data[280];
 
-	// cpu address bake up
-	always@(posedge clk)
-	begin
-    if( reset )
-    	cpu_addr_dly	<=	0;
-    else if( ( ~hit & dirty & data_req & wren ) | ( ~hit & data_req ) )
-    	cpu_addr_dly	<=	cpu_addr;
-	end
-	
-	// cpu write data bake up
-	always@(posedge clk)
-	begin
-    if( reset )
-    	cpu_wr_data_dly	<=	0;
-    else if( ~hit & data_req & wren )
-    	cpu_wr_data_dly	<=	cpu_wr_data;
-	end
-	
-	// cpu write wait flag(wait until target block has been moved to cache)
-	always@(posedge clk)
-	begin
-    if( reset )
-    	cpu_wr_wait_flag	<=	0;
-    else if( ~hit & data_req & wren )
-    	cpu_wr_wait_flag	<=	1;
-    else if( ~dram_wr_req & ~dram_rd_req )
-    	cpu_wr_wait_flag	<=	0;
-	end
-	
-	// block counter
-	always@(posedge clk)
-	begin
-    if( reset )
-    begin
-    	wr_counter	<=	0;
-    	rd_counter	<=	0;
+    logic   abort, abort_delay;
+    logic   reqstart;
+    logic   r1, r2;
+
+    always@(negedge clk,posedge reset)begin
+        if(reset)begin
+            r1<=0;
+            r2<=0;
+        end
+        else begin
+            r2 <= r1;
+            r1 <= datareq;
+        end
     end
-    else
-    begin
-    	if( dram_wr_ready  )
-        wr_counter	<=	0;
-    	else if( dram_wr_val & dram_wr_req )
-        wr_counter	<=	wr_counter + 1'b1;
-    	if( dram_rd_ready  )
-        rd_counter	<=	0;
-    	else if( dram_rd_val & dram_rd_req  )
-        rd_counter	<=	rd_counter + 1'b1;
+    assign  reqstart = r1&~r2;
+    assign  abort   =   (mem_write_req || mem_read_req || mem_read_req_delay ||reqstart);
+    assign  abort_out = abort | abort_delay;
+
+    // 控制状态机
+    parameter    CPU_EXEC   =    0;
+    parameter    WR_DRAM    =    1;
+    parameter    RD_DRAM    =    2;
+
+    always@(posedge clk)
+        if(reset)
+            state   <=  CPU_EXEC;
+        else case(state)
+            CPU_EXEC:// 把dirty的块写回memory
+                    if(~hit & dirty & datareq)   
+                        state    <=    WR_DRAM;
+                    else if(~hit & datareq) 
+                        state    <=    RD_DRAM;
+                    else
+                        state    <=    CPU_EXEC;
+            WR_DRAM:if(mem_write_ready)
+                        state    <=    RD_DRAM;
+                    else
+                        state    <=    WR_DRAM;
+            RD_DRAM:if(mem_read_ready)
+                        state    <=    CPU_EXEC;    
+                    else
+                        state    <=    RD_DRAM;
+                default: state   <=    CPU_EXEC;    
+            endcase
+    
+    assign    mem_write_req   =    (WR_DRAM == state);
+    assign    mem_read_req    =    (RD_DRAM == state);
+    
+    // 信号延迟部分
+    always@(posedge clk)
+        abort_delay         <=  abort;
+
+    always@(posedge clk)
+        mem_read_req_delay  <=  mem_read_req;
+    
+    always@(posedge clk)
+        if(reset)
+            tag_delay       <=  0;
+        else if((~hit & dirty & datareq) & ~mem_write_req & ~mem_read_req)
+            tag_delay       <=  block_data[279:256];
+
+    always@(posedge clk)
+        if(reset)
+            dataaddr_delay  <=  0;
+        else if((~hit & dirty & datareq & wren) | (~hit & datareq))
+            dataaddr_delay  <=  dataaddr;
+    
+    always@(posedge clk)
+        if(reset)
+            writedata_delay <=  0;
+        else if(~hit & datareq & wren)
+            writedata_delay <=  writedata;
+    
+    always@(posedge clk)
+        if(reset)
+            cpu_write_wait_flag <= 0;
+        else if(~hit & datareq & wren)
+            cpu_write_wait_flag <= 1;
+        else if(~mem_write_req & ~mem_read_req)
+            cpu_write_wait_flag <= 0;
+
+    // 读写计数部分，用于判定读写memory是否完成
+    always@(posedge clk) begin
+        if(reset) begin
+            write_counter   <=    0;
+            read_counter    <=    0;
+        end
+        else begin
+            if(mem_write_ready)
+                write_counter   <=  0;
+            else if(mem_write_val & mem_write_req)
+                write_counter   <=  write_counter + 1'b1;
+            if(mem_read_ready)
+                read_counter    <=  0;
+            else if(mem_read_val & mem_read_req)
+                read_counter    <=  read_counter + 1'b1;
+        end
     end
-	end
-	
-	// count to BLOCK_SIZE
-	// add your codes here...
-	// 对dram_wr_ready和dram_rd_ready进行assign赋值
-	assign dram_wr_ready = (BLOCK_SIZE == wr_counter);
-	assign dram_rd_ready = (BLOCK_SIZE == rd_counter);
-	
-	// dram data buffer
-	always @(posedge clk)
-	  begin
-    // add your codes here...
-    // 8*32的移位寄存器dram_data_shift
-    if(reset)
-    begin
-    	dram_data_shift[0] <= 0;
-    	dram_data_shift[1] <= 0;
-    	dram_data_shift[2] <= 0;
-    	dram_data_shift[3] <= 0;
-    	dram_data_shift[4] <= 0;
-    	dram_data_shift[5] <= 0;
-    	dram_data_shift[6] <= 0;
-    	dram_data_shift[7] <= 0;
+    
+    assign mem_write_ready  =   (BLOCK_SIZE == write_counter);
+    assign mem_read_ready   =   (BLOCK_SIZE == read_counter);
+    
+    // 8字的移位寄存器，用于接收从memory读取的数�?
+    always @(posedge clk) begin
+        if(reset) begin
+            dram_data_shift[0] <= 0;
+            dram_data_shift[1] <= 0;
+            dram_data_shift[2] <= 0;
+            dram_data_shift[3] <= 0;
+            dram_data_shift[4] <= 0;
+            dram_data_shift[5] <= 0;
+            dram_data_shift[6] <= 0;
+            dram_data_shift[7] <= 0;
+        end
+        else if(mem_read_ready) begin
+            dram_data_shift[0] <= 0;
+            dram_data_shift[1] <= 0;
+            dram_data_shift[2] <= 0;
+            dram_data_shift[3] <= 0;
+            dram_data_shift[4] <= 0;
+            dram_data_shift[5] <= 0;
+            dram_data_shift[6] <= 0;
+            dram_data_shift[7] <= 0;
+        end
+        else if(mem_read_val) begin
+            dram_data_shift[0] <= dram_data_shift[1];
+            dram_data_shift[1] <= dram_data_shift[2];
+            dram_data_shift[2] <= dram_data_shift[3];
+            dram_data_shift[3] <= dram_data_shift[4];
+            dram_data_shift[4] <= dram_data_shift[5];
+            dram_data_shift[5] <= dram_data_shift[6];
+            dram_data_shift[6] <= dram_data_shift[7];
+            dram_data_shift[7] <= mem_read_data;
+        end
     end
-    else if(dram_rd_ready)
-    begin
-    	dram_data_shift[0] <= 0;
-    	dram_data_shift[1] <= 0;
-    	dram_data_shift[2] <= 0;
-    	dram_data_shift[3] <= 0;
-    	dram_data_shift[4] <= 0;
-    	dram_data_shift[5] <= 0;
-    	dram_data_shift[6] <= 0;
-    	dram_data_shift[7] <= 0;
-    end
-    else if(dram_rd_val)
-    begin
-    	dram_data_shift[0] <= dram_data_shift[1];
-    	dram_data_shift[1] <= dram_data_shift[2];
-    	dram_data_shift[2] <= dram_data_shift[3];
-    	dram_data_shift[3] <= dram_data_shift[4];
-    	dram_data_shift[4] <= dram_data_shift[5];
-    	dram_data_shift[5] <= dram_data_shift[6];
-    	dram_data_shift[6] <= dram_data_shift[7];
-    	dram_data_shift[7] <= dram_rd_data;
-    end
-	 end
-	
-	
 endmodule

@@ -2,121 +2,12 @@
 # Vivado v2016.4 (64-bit)
 # SW Build 1756540 on Mon Jan 23 19:11:23 MST 2017
 # IP Build 1755317 on Mon Jan 23 20:30:07 MST 2017
-# Start of session at: Thu Jun 21 14:08:03 2018
-# Process ID: 10900
+# Start of session at: Thu Jun 21 21:47:33 2018
+# Process ID: 12588
 # Current directory: C:/Users/will131/Documents/workspace/MIPS_V3.2
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent1984 C:\Users\will131\Documents\workspace\MIPS_V3.2\MIPS_V3.2.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17032 C:\Users\will131\Documents\workspace\MIPS_V3.2\MIPS_V3.2.xpr
 # Log file: C:/Users/will131/Documents/workspace/MIPS_V3.2/vivado.log
 # Journal file: C:/Users/will131/Documents/workspace/MIPS_V3.2\vivado.jou
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.xpr
-launch_simulation
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-add_wave {{/simulation/top/mem/abort}} 
-add_wave {{/simulation/top/mem/datacnt}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-add_wave {{/simulation/top/mem/datareq}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-add_wave {{/simulation/top/mem/word}} 
-add_wave {{/simulation/top/mem/dataadr}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-add_wave {{/simulation/top/mem/RAM}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-add_wave {{/simulation/top/instrabort}} 
-restart
-run 2000 ns
-add_wave {{/simulation/top/icache/ins_req_delay}} 
-add_wave {{/simulation/top/icache/hit}} 
-add_wave {{/simulation/top/icache/mem_req}} 
-add_wave {{/simulation/top/icache/mem_req_delay}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-add_wave {{/simulation/top/mem/abort}} 
-add_wave {{/simulation/top/mips/clk}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-launch_simulation
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/topno.sv
-remove_files  C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/memno.sv
-add_files -norecurse {C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/top2.sv C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/mem1.sv C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/mem2.sv C:/Users/will131/Documents/workspace/MIPS_V3.2/source/cache/top1.sv}
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-launch_simulation
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns

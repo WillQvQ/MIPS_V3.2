@@ -17,13 +17,28 @@ module top#(parameter N = 64)(
     output  logic [31:0]    rx_checkh,
     output  logic [31:0]    rx_checkl
 );
-    logic hit,dataabort,instrabort,instrreq,instrreq0,val;
-    logic [31:0]instradr,instr;
-    logic [31:0]instradr0,instr0;
-    mips mips(clk,reset,datareq,dataadr,writedata,memwrite,instradr,instr,instrreq,dataabort,instrabort,readdata,pclow,checkra,checkr,regwriteW,writeregW);
-    mem mem(clk,reset,memwrite,datareq,dataadr,writedata,instradr0,instr0,instrreq0,val,dataabort,readdata,checkma,checkm);
-    // assign get = 1;
-    icache icache(clk,reset,instr0,val,instrreq0,instradr0,instradr,instrreq,instr,hit,instrabort);
-    // dcache dcache(clk,reset,t11,t322,t323,t14,instrreq0,instradr0,instr0,get,instradr,instrreq,0,32'b0,instr,hit,abort);
-
+    logic       ihit,dhit,dataabort,instrabort,instrreq;
+    logic       readval0,instrval0,writeval0;
+    logic       datareq,readreq0,instrreq0,writereq0;
+    logic[31:0] instradr,instr;
+    logic[31:0] instradr0,instr0;
+    logic[31:0] readdata0,writedata0,writeadr0,readadr0;
+    mips    mips(clk,reset,
+                datareq,dataadr,writedata,memwrite,
+                instradr,instr,instrreq,
+                dataabort,instrabort,readdata,
+                pclow,checkra,checkr,regwriteW,writeregW);
+    mem     mem(clk,reset,
+                writereq0,readreq0,writeadr0,writedata0,
+                instradr0,instr0,instrreq0,
+                instrval0,readval0,writeval0,
+                readadr0,readdata0,checkma,checkm);
+    icache icache(clk,reset,
+                instr0,instrval0,instrreq0,instradr0,
+                instradr,instrreq,instr,ihit,instrabort);
+    dcache dcache(clk,reset,
+                writereq0,writeadr0,writedata0,writeval0,
+                readreq0,readadr0,readdata0,readval0,
+                dataadr[31:0],datareq,memwrite[0],writedata[31:0],readdata[31:0],dhit,dataabort);
+    assign readdata[63:32] = 32'b0;
 endmodule
