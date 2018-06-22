@@ -54,7 +54,7 @@ module top#(parameter N = 64)(
             tx_show <= 128'd0;
             show_len <= 5'd2;
         end
-        else if(datareq & writeval0) begin
+        else if(writeval0) begin
             tx_show <= {clks,abort,16'h6666,dataadr[31:0],writeadr0,writedata0}; // 8+8+16+32+32+32 = 128
             show_len <= 5'd16;
         end
@@ -70,7 +70,7 @@ module top#(parameter N = 64)(
             tx_show <= {clks,abort,16'h5555,dataadr[31:0],writedata[31:0]}; // 8+8+16+32+32 = 96
             show_len <= 5'd12;
         end
-        else if(instrreq & instrval0)begin
+        else if(instrval0)begin
             tx_show <= {clks,abort,16'h2222,instradr,instradr0,instr0};//8+8+16+32+32+32 = 128
             show_len <= 5'd16;
         end
