@@ -135,6 +135,7 @@ module    dcache(
                 default:word <= block_data[31:0];
             endcase
         end
+        else word <= 0;
     end
     
     // 控制部分
