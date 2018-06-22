@@ -55,17 +55,20 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     //Stage F
     logic [2:0] instrcnt;
     initial begin instrcnt = 0; WaitInstr = 1; end
-    always @(posedge clk)begin
-        case (instrcnt)
-            3'd0: begin
-                instrreq <= 1;
-                instrcnt <= instrcnt + 1;
-                WaitInstr <= 1;
-            end
-            3'd1:begin instrcnt <= instrcnt + 1; end
-            3'd2,3'd3,3'd4:instrcnt <= instrcnt + 1; 
-            3'd5:if(instrabort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
-        endcase
+    always @(posedge clk,posedge reset)begin
+        if(reset)begin
+            instrcnt = 0; WaitInstr = 1;
+        end
+        else case (instrcnt)
+                3'd0: begin
+                    instrreq <= 1;
+                    instrcnt <= instrcnt + 1;
+                    WaitInstr <= 1;
+                end
+                3'd1:begin instrreq<=0;instrcnt <= instrcnt + 1; end
+                3'd2,3'd3,3'd4:instrcnt <= instrcnt + 1; 
+                3'd5:if(instrabort==0)begin instrreq<=0;  WaitInstr<=0; instrcnt <= 0; end
+            endcase
     end
     
     flopenr#(W)    pcreg(clk, reset, ~(StallF|WaitInstr), pcnextF, pcF);

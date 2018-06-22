@@ -14,8 +14,7 @@ module mips#(parameter N = 64)(
     input   logic [4:0] checka,
     output  logic [N-1:0]check,
     output  logic       regwriteW,
-    output  logic [4:0] writeregW,
-    output  logic[31:0] instrD
+    output  logic [4:0] writeregW
 );
     logic       lbu;
     logic       memtoregE,memtoregM,memtoregW;  

@@ -10,7 +10,7 @@ module    icache(
     input   logic           ins_req,        
     output  logic   [31:0]  instr,
     output  logic           hit,
-    output  logic           abort
+    output  logic           abort_out
     );
     
     parameter BLOCK_SIZE = 8;
@@ -172,7 +172,10 @@ module    icache(
     assign  hit0 = block_data0[280] & (instraddr_delay[31:8]==block_data0[279:256]);
     assign  hit1 = block_data1[280] & (instraddr_delay[31:8]==block_data1[279:256]);
     assign  hit  = hit0 | hit1;
-    assign  abort = (~hit & ins_req_delay) | mem_req | mem_req_delay;
+
+    logic   abort, abort_delay;
+    assign  abort_out   = abort | abort_delay;
+    assign  abort       = (~hit & ins_req_delay) | mem_req | mem_req_delay;
     assign  mem_data_ready = (BLOCK_SIZE==counter);    
     
     assign  block_data = hit1 ? block_data1 : block_data0;
@@ -205,7 +208,10 @@ module    icache(
     
     // 延迟信号
     always@(posedge clk)
-        mem_req_delay <= mem_req;
+        abort_delay     <=  abort;
+
+    always@(posedge clk)
+        mem_req_delay   <=  mem_req;
 
     always@(posedge clk)
     begin

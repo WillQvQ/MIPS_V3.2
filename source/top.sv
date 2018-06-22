@@ -22,12 +22,11 @@ module top#(parameter N = 64)(
     logic[31:0] instradr,instr;
     logic[31:0] instradr0,instr0;
     logic[31:0] readdata0,writedata0,writeadr0,readadr0;
-    logic[31:0] instrD;
     mips    mips(clk,reset,
                 datareq,dataadr,writedata,memwrite,
                 instradr,instr,instrreq,
                 dataabort,instrabort,readdata,
-                pclow,checkra,checkr,regwriteW,writeregW,instrD);
+                pclow,checkra,checkr,regwriteW,writeregW);
     mem     mem(clk,reset,
                 writereq0,readreq0,writeadr0,writedata0,
                 instradr0,instr0,instrreq0,
@@ -55,13 +54,9 @@ module top#(parameter N = 64)(
             tx_show <= 128'd0;
             show_len <= 5'd2;
         end
-        else if(instrreq & instrval0)begin
-            tx_show <= {clks,abort,16'h2222,instradr,instradr0,instr0};//8+8+16+32+32+32 = 128
+        else if(datareq & writeval0) begin
+            tx_show <= {clks,abort,16'h6666,dataadr[31:0],writeadr0,writedata0}; // 8+8+16+32+32+32 = 128
             show_len <= 5'd16;
-        end
-        else if(instrabort)begin
-            tx_show <= {clks,abort,16'h1111,instradr,instr}; // 8+8+16+32+32 = 96
-            show_len <= 5'd12;
         end
         else if(datareq & ~memwrite[0] & readval0) begin
             tx_show <= {clks,abort,16'h4444,dataadr[31:0],readadr0,readdata0}; // 8+8+16+32+32+32 = 128
@@ -71,12 +66,16 @@ module top#(parameter N = 64)(
             tx_show <= {clks,abort,16'h3333,dataadr[31:0],readdata[31:0]}; // 8+8+16+32+32 = 96
             show_len <= 5'd12;
         end
-        else if(datareq & writeval0) begin
-            tx_show <= {clks,16'h6666,dataadr[31:0],writeadr0,writedata0}; // 8+8+16+32+32+32 = 128
-            show_len <= 5'd16;
-        end
         else if(datareq & memwrite[0]) begin
             tx_show <= {clks,abort,16'h5555,dataadr[31:0],writedata[31:0]}; // 8+8+16+32+32 = 96
+            show_len <= 5'd12;
+        end
+        else if(instrreq & instrval0)begin
+            tx_show <= {clks,abort,16'h2222,instradr,instradr0,instr0};//8+8+16+32+32+32 = 128
+            show_len <= 5'd16;
+        end
+        else if(instrabort)begin
+            tx_show <= {clks,abort,16'h1111,instradr,instr}; // 8+8+16+32+32 = 96
             show_len <= 5'd12;
         end
         else if(writeregW!=0)begin

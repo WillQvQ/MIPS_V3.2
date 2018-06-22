@@ -12,10 +12,8 @@ module top2#(parameter N = 64)(
     output  logic [31:0]    checkm,
     output  logic           regwriteW,
     output  logic [4:0]     writeregW,
-    input   logic [7:0]     rx_data,
-    output  logic [31:0]    rx_check,
-    output  logic [31:0]    rx_checkh,
-    output  logic [31:0]    rx_checkl
+    output  logic [127:0]   tx_show,
+    output  logic [4:0]     show_len
 );
     logic hit,dataabort,instrabort,instrreq,instrreq0,val;
     logic [31:0]instradr,instr;

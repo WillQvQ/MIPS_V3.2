@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="simulation_behav.wdb" id="1">
+      <db_ref path="simulation_behav1.wdb" id="1">
          <top_modules>
             <top_module name="glbl" />
             <top_module name="simulation" />
@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="696450000fs"></ZoomStartTime>
-      <ZoomEndTime time="721670001fs"></ZoomEndTime>
-      <Cursor1Time time="710000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="254600001fs"></ZoomEndTime>
+      <Cursor1Time time="22000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="156"></NameColumnWidth>
+      <NameColumnWidth column_width="144"></NameColumnWidth>
       <ValueColumnWidth column_width="54"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="35" />
+   <WVObjectSize size="42" />
    <wvobject fp_name="/simulation/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -100,14 +100,6 @@
       <obj_property name="ElementShortName">memwriteM[1:0]</obj_property>
       <obj_property name="ObjectShortName">memwriteM[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/dcache/wren" type="logic">
-      <obj_property name="ElementShortName">wren</obj_property>
-      <obj_property name="ObjectShortName">wren</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/dcache/abort" type="logic">
-      <obj_property name="ElementShortName">abort</obj_property>
-      <obj_property name="ObjectShortName">abort</obj_property>
-   </wvobject>
    <wvobject fp_name="/simulation/top/dcache/dram_data_shift" type="array">
       <obj_property name="ElementShortName">dram_data_shift[7:0][31:0]</obj_property>
       <obj_property name="ObjectShortName">dram_data_shift[7:0][31:0]</obj_property>
@@ -116,21 +108,9 @@
       <obj_property name="ElementShortName">pcF[31:0]</obj_property>
       <obj_property name="ObjectShortName">pcF[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/dcache/reqstart" type="logic">
-      <obj_property name="ElementShortName">reqstart</obj_property>
-      <obj_property name="ObjectShortName">reqstart</obj_property>
-   </wvobject>
    <wvobject fp_name="/simulation/top/mips/datapath/instrD" type="array">
       <obj_property name="ElementShortName">instrD[31:0]</obj_property>
       <obj_property name="ObjectShortName">instrD[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/dcache/block_id" type="logic">
-      <obj_property name="ElementShortName">block_id</obj_property>
-      <obj_property name="ObjectShortName">block_id</obj_property>
-   </wvobject>
-   <wvobject fp_name="/simulation/top/dcache/hit" type="logic">
-      <obj_property name="ElementShortName">hit</obj_property>
-      <obj_property name="ObjectShortName">hit</obj_property>
    </wvobject>
    <wvobject fp_name="/simulation/tx_show" type="array">
       <obj_property name="ElementShortName">tx_show[127:0]</obj_property>
@@ -148,16 +128,64 @@
       <obj_property name="ElementShortName">ins_req</obj_property>
       <obj_property name="ObjectShortName">ins_req</obj_property>
    </wvobject>
+   <wvobject fp_name="/simulation/top/icache/mem_req" type="logic">
+      <obj_property name="ElementShortName">mem_req</obj_property>
+      <obj_property name="ObjectShortName">mem_req</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/block_data0" type="array">
+      <obj_property name="ElementShortName">block_data0[280:0]</obj_property>
+      <obj_property name="ObjectShortName">block_data0[280:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/block_data1" type="array">
+      <obj_property name="ElementShortName">block_data1[280:0]</obj_property>
+      <obj_property name="ObjectShortName">block_data1[280:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/block_data" type="array">
+      <obj_property name="ElementShortName">block_data[280:0]</obj_property>
+      <obj_property name="ObjectShortName">block_data[280:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/mem_data_ready" type="logic">
+      <obj_property name="ElementShortName">mem_data_ready</obj_property>
+      <obj_property name="ObjectShortName">mem_data_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/counter" type="array">
+      <obj_property name="ElementShortName">counter[31:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/hit" type="logic">
+      <obj_property name="ElementShortName">hit</obj_property>
+      <obj_property name="ObjectShortName">hit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/mem_val" type="logic">
+      <obj_property name="ElementShortName">mem_val</obj_property>
+      <obj_property name="ObjectShortName">mem_val</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/instr" type="array">
+      <obj_property name="ElementShortName">instr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/icache/abort_out" type="logic">
+      <obj_property name="ElementShortName">abort_out</obj_property>
+      <obj_property name="ObjectShortName">abort_out</obj_property>
+   </wvobject>
    <wvobject fp_name="/simulation/top/icache/abort" type="logic">
       <obj_property name="ElementShortName">abort</obj_property>
       <obj_property name="ObjectShortName">abort</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/check" type="array">
-      <obj_property name="ElementShortName">check[63:0]</obj_property>
-      <obj_property name="ObjectShortName">check[63:0]</obj_property>
+   <wvobject fp_name="/simulation/top/icache/abort_delay" type="logic">
+      <obj_property name="ElementShortName">abort_delay</obj_property>
+      <obj_property name="ObjectShortName">abort_delay</obj_property>
    </wvobject>
-   <wvobject fp_name="/simulation/top/mips/datapath/checka" type="array">
-      <obj_property name="ElementShortName">checka[4:0]</obj_property>
-      <obj_property name="ObjectShortName">checka[4:0]</obj_property>
+   <wvobject fp_name="/simulation/top/icache/instraddr" type="array">
+      <obj_property name="ElementShortName">instraddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instraddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mips/datapath/WaitInstr" type="logic">
+      <obj_property name="ElementShortName">WaitInstr</obj_property>
+      <obj_property name="ObjectShortName">WaitInstr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/simulation/top/mips/datapath/instrcnt" type="array">
+      <obj_property name="ElementShortName">instrcnt[2:0]</obj_property>
+      <obj_property name="ObjectShortName">instrcnt[2:0]</obj_property>
    </wvobject>
 </wave_config>
