@@ -14,7 +14,8 @@ module mips#(parameter N = 64)(
     input   logic [4:0] checka,
     output  logic [N-1:0]check,
     output  logic       regwriteW,
-    output  logic [4:0] writeregW
+    output  logic [4:0] writeregW,
+    output  logic[31:0] instrD
 );
     logic       lbu;
     logic       memtoregE,memtoregM,memtoregW;  
@@ -36,7 +37,7 @@ module mips#(parameter N = 64)(
                         alusrcE,alucontrolE, dataadr,
                         writedata, readdata, instradr,instr,
                         FlushE, pclow, checka, check, writeregW,
-                        instrreq,instrabort);
+                        instrreq,instrabort,instrD);
     controller controller(clk, reset, op, funct, FlushE,
                         regdstE, regwriteE,regwriteM,regwriteW,
                         memtoregE,memtoregM,memtoregW, readreqM, memwriteM,

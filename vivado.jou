@@ -2,106 +2,16 @@
 # Vivado v2016.4 (64-bit)
 # SW Build 1756540 on Mon Jan 23 19:11:23 MST 2017
 # IP Build 1755317 on Mon Jan 23 20:30:07 MST 2017
-# Start of session at: Thu Jun 21 21:47:33 2018
-# Process ID: 12588
+# Start of session at: Fri Jun 22 10:18:04 2018
+# Process ID: 8632
 # Current directory: C:/Users/will131/Documents/workspace/MIPS_V3.2
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent17032 C:\Users\will131\Documents\workspace\MIPS_V3.2\MIPS_V3.2.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent4572 C:\Users\will131\Documents\workspace\MIPS_V3.2\MIPS_V3.2.xpr
 # Log file: C:/Users/will131/Documents/workspace/MIPS_V3.2/vivado.log
 # Journal file: C:/Users/will131/Documents/workspace/MIPS_V3.2\vivado.jou
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.xpr
-reset_run synth_1
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-wait_on_run impl_1
-open_hw
-connect_hw_server
-open_hw_target
-set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
-current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
-refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
-set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
-set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
-program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
-refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
-close_hw
-close_project
-open_project C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.xpr
-reset_run synth_1
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-wait_on_run impl_1
-reset_run synth_1
-launch_runs synth_1 -jobs 4
-wait_on_run synth_1
-launch_simulation
-reset_run synth_1
-launch_simulation
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-add_wave {{/simulation/tx_show}} {{/simulation/show_len}} 
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-restart
-run 2000 ns
-add_wave {{/simulation/top/clks}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
 launch_simulation
 open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
 source simulation.tcl
 run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-wait_on_run impl_1
-add_wave {{/simulation/top/icache/ins_req}} 
-restart
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-close_sim
-open_hw
-connect_hw_server
-open_hw_target
-set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
-current_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
-refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
-set_property PROBES.FILE {} [lindex [get_hw_devices xc7a100t_0] 0]
-set_property PROGRAM.FILE {C:/Users/will131/Documents/workspace/MIPS_V3.2/MIPS_V3.2.runs/impl_1/onboard.bit} [lindex [get_hw_devices xc7a100t_0] 0]
-program_hw_devices [lindex [get_hw_devices xc7a100t_0] 0]
-refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
-close_hw
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl
-run 2000 ns
-save_wave_config {C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg}
-close_sim
-launch_simulation
-open_wave_config C:/Users/will131/Documents/workspace/MIPS_V3.2/simulation_behav.wcfg
-source simulation.tcl

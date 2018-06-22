@@ -19,14 +19,15 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
     output  logic [7:0] pclow,
     input   logic [4:0] checka,
     output  logic[N-1:0]check,
-    output logic  [4:0] writeregW,
+    output  logic [4:0] writeregW,
     output  logic       instrreq,
-    input   logic       instrabort
+    input   logic       instrabort,
+    output  logic[W-1:0]instrD
 );
     logic           StallF,StallD,ForwardAD,ForwardBD,FlushD;
     logic [1:0]     ForwardAE,ForwardBE;
     logic [W-1:0]   pcnextF,pcF,pc4F,pc4D,pcbranchD;
-    logic [W-1:0]   instrD;
+    // logic [W-1:0]   instrD;
     logic [4:0]     rsD,rtD,rdD,rsE,rtE,rdE;
     logic [N-1:0]   signimmD,zeroimmD,signimmE,zeroimmE;
     logic [N-1:0]   signbyteD,zerobyteD,signbyteE,zerobyteE;
@@ -53,7 +54,7 @@ module datapath #(parameter N = 64, W = 32, I = 16 ,B = 8)(
                             ForwardAD,ForwardBD,ForwardAE,ForwardBE);
     //Stage F
     logic [2:0] instrcnt;
-    initial instrcnt = 0;
+    initial begin instrcnt = 0; WaitInstr = 1; end
     always @(posedge clk)begin
         case (instrcnt)
             3'd0: begin
