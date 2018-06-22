@@ -56,7 +56,7 @@ module top#(parameter N = 64)(
 		else 
             clks <= clks + 1;
     logic [7:0] abort;
-    assign abort = {3'b0,instrabort,3'b0,dataabort};
+    assign abort = {3'b0,(instrabort|instrreq_delay),3'b0,dataabort};
     always_ff @(posedge clk, posedge reset) begin
         if(reset)begin
             tx_show <= 128'd0;
@@ -78,20 +78,16 @@ module top#(parameter N = 64)(
             tx_show <= {clks,abort,16'h5555,dataadr[31:0],writedata[31:0]}; // 8+8+16+32+32 = 96
             show_len <= 5'd12;
         end
-        else if(instrval0)begin
-            tx_show <= {clks,abort,16'h2222,instradr,instradr0,instr0};// 8+8+16+32+32+32 = 128
-            show_len <= 5'd16;
-        end
-        else if(instrabort)begin
-            tx_show <= {clks,abort,16'h1111,instradr,instr}; // 8+8+16+32+32 = 96
-            show_len <= 5'd12;
-        end
         else if(writeregW!=0)begin
             tx_show <= {clks,abort,16'h7777,11'd0,writeregW,checkr[31:0]};// 8+8+16+16+32 = 80
             show_len <= 5'd10;
         end
-        else if(instrreq_delay)begin
-            tx_show <= {clks,abort,16'h8888,11'd0,instradr,instr};// 8+8+16+32+32 = 96
+        else if(instrval0)begin
+            tx_show <= {clks,abort,16'h2222,instradr,instradr0,instr0};// 8+8+16+32+32+32 = 128
+            show_len <= 5'd16;
+        end
+        else if(instrabort|instrreq_delay)begin
+            tx_show <= {clks,abort,16'h1111,instradr,instr}; // 8+8+16+32+32 = 96
             show_len <= 5'd12;
         end
         else begin

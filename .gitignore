@@ -4,4 +4,7 @@
 /MIPS_V3.2.runs/
 /MIPS_V3.2.sim/
 /MIPS_V3.2.srcs/
+*.log
+*.jou
+*.str
 *.xpr
