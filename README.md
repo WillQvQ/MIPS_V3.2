@@ -374,7 +374,7 @@ main:   addi    $2, $0, 64
 
 ## 六、实验演示
 
-这一次我选择了以串口调试输出为主的演示方式，虽然原来实验板上的大部分调试功能仍然存在，但实在是不方便。我的串口调试演示，需要使用串口调试助手接收Nesxy4实验板通过串口发回的数据（如下图所示）。在每个MIPS的时钟周期内，实验板会发回一段长度2字~16字不等长度的十六进制数据，用于表示当前的状态。
+这一次我选择了以串口调试输出为主的演示方式，虽然原来实验板上的大部分调试功能仍然存在，但实在是不方便查看，所以我也没有改进了。我的串口调试演示需要使用串口调试助手接收Nesxy4实验板通过串口发回的数据（如下图所示）。在每个MIPS的时钟周期内，实验板会发回一段长度2字~16字不等长度的十六进制数据，用于表示当前的状态。输出结果的控制代码详见top.sv中。
 
 ![串口](images/串口.png)
 
@@ -582,7 +582,74 @@ tx_control_module.sv     tx控制模块
 test_module.sv           下降沿检测模块
 ```
 
+uart_top是串口调试的主要模块，它接收了top模块经过onboard模块传来的tx_show和show_len两个参数，并检测mips的时钟下降沿。当mips时钟下降沿或者收到计算机通过串口发送的数据时，uart_top发信号给串口发送模块tx_control_module发送tx_sig信号，让其发送数据给电脑。当收到数据时，屏幕上返回原始数据（此处在上次实验中有查看内存的功能，但在这次实验不太必要）；当mips时钟下降沿时，发送top模块发送的数据。
 
+```verilog
+//uart_top.sv 节选
+logic f1;
+logic f2;
+
+always@(negedge clk_trx,negedge rst_n)begin
+    if(~rst_n)begin
+            f1 <= 1'b1;
+            f2 <= 1'b1;
+    end
+    else begin
+            f1 <= clk_mips;
+            f2 <= f1;
+    end
+end
+assign tx_sig = (f2 & !f1) | rx_done_sig;
+always @(posedge tx_sig)
+    if(rx_done_sig)begin
+        len = 5'd1;
+        tx_data = rx_data;
+    end
+    else begin
+        tx_data = tx_show;
+        len <= show_len;
+    end
+```
+
+tx_control_module是发送模块。串口一次只可以发送1bit的数据，但通过编码的方式，可将8bit的数据变成12bit的信道编码进行传输，在串口调试工具中设置好相应的参数即可解码成正确的十六进制数。在下面的代码中，i控制着12个bit的值，使得1byte的数据格式正确；cnt控制着不同byte的输出，使得要输出的数据按byte顺序输出。
+
+```verilog
+//tx_control_module.sv 节选
+
+initial i <= 4'd0;
+initial cnt <= 5'd0;
+always@(posedge clk,negedge rst_n)
+    if(!rst_n)
+        i <= 4'd0;
+        rx_data <= 8'd0;
+        count_sig <= 1'b0;
+        rx_done_sig <= 1'b0;
+    else case(i)
+            4'd0:if(tx_sig|cnt) begin
+                i <= i + 1'b1;
+                count_sig <= 1'b1; 
+                if(tx_sig)
+                    cnt <= len;
+            end
+            4'd1:if(bps_clk) begin i <= i + 1'b1;tx_pin_out <= 1'b0;end
+            4'd2,4'd3,4'd4,4'd5,4'd6,4'd7,4'd8,4'd9:if(bps_clk) begin 
+                i <= i + 1'b1;
+                tx_pin_out <= tx_data[8*cnt+i-2-8];
+            end
+            4'd10,4'd11:if(bps_clk) begin i <= i + 1'b1;tx_pin_out <= 1'b1;end
+            4'd12:if(bps_clk) begin 
+                i <= 1'b0;
+                count_sig <= 1'b0;
+                cnt <= cnt-1;
+            end 
+    	endcase
+    
+bps_module bps_module(clk,rst_n,count_sig,bps_clk);
+```
+
+tx_control_module模块中调用了bps_module模块来调节发送的bps_clk，这个时钟的速度对应着串口调试工具设置的波特率的值。
+
+rx_control_module模块与tx_control_module类似，即通过状态机对接收到的数据进行解码，使12bit的信道编码变成8bit的数据。它的工作离不开test_module下降沿检测模块，因为只有检测到rx端口的下降沿，才代表着数据输入的开始。
 
 ## 八、资源状况
 
