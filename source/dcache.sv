@@ -245,7 +245,7 @@ module    dcache(
     assign mem_write_ready  =   (BLOCK_SIZE == write_counter);
     assign mem_read_ready   =   (BLOCK_SIZE == read_counter);
     
-    // 8字的移位寄存器，用于接收从memory读取的数�?
+    // 8字的移位寄存器，用于接收从memory读取的数
     always @(posedge clk) begin
         if(reset) begin
             dram_data_shift[0] <= 0;

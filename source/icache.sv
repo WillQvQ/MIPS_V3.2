@@ -31,13 +31,15 @@ module    icache(
     logic   [3:0]   LRU_c0[7:0], LRU_c1[7:0];
     assign  block_id = instraddr[7:5];
     assign  block_id_delay = instraddr_delay[7:5];
-    assign  wr_cache_data = {1'b1, instraddr_delay[31:8],
-                                    mem_data_shift[7],mem_data_shift[6],
-                                    mem_data_shift[5],mem_data_shift[4],
-                                    mem_data_shift[3],mem_data_shift[2],
-                                    mem_data_shift[1],mem_data_shift[0]};
     
-    // icache 模块
+    // 从memory读指令到icache
+    assign  wr_cache_data = {1'b1, instraddr_delay[31:8],
+                            mem_data_shift[7],mem_data_shift[6],
+                            mem_data_shift[5],mem_data_shift[4],
+                            mem_data_shift[3],mem_data_shift[2],
+                            mem_data_shift[1],mem_data_shift[0]};
+    
+
     always@(posedge clk)
     begin
         if(reset)begin
@@ -63,6 +65,22 @@ module    icache(
                 icache0[block_id_delay] <= wr_cache_data;
     end
     
+    // 从icache读指令到CPU
+    
+    always@(*)
+        case(instraddr_delay[4:2])
+            0:    instr = block_data[31:0];
+            1:    instr = block_data[63:32];
+            2:    instr = block_data[95:64];
+            3:    instr = block_data[127:96];
+            4:    instr = block_data[159:128];
+            5:    instr = block_data[191:160];
+            6:    instr = block_data[223:192];
+            7:    instr = block_data[255:224];
+            default:instr = block_data[31:0];
+        endcase
+
+
     //LRU 计数模块
     always @(posedge clk)
         if(reset) begin
@@ -168,7 +186,7 @@ module    icache(
                     block_data1 <= icache1[block_id];
             end
 
-    // 输出信号处理
+    // 控制信号
     assign  hit0 = block_data0[280] & (instraddr_delay[31:8]==block_data0[279:256]);
     assign  hit1 = block_data1[280] & (instraddr_delay[31:8]==block_data1[279:256]);
     assign  hit  = hit0 | hit1;
@@ -179,19 +197,6 @@ module    icache(
     assign  mem_data_ready = (BLOCK_SIZE==counter);    
     
     assign  block_data = hit1 ? block_data1 : block_data0;
-    
-    always@(*)
-        case(instraddr_delay[4:2])
-            0:    instr = block_data[31:0];
-            1:    instr = block_data[63:32];
-            2:    instr = block_data[95:64];
-            3:    instr = block_data[127:96];
-            4:    instr = block_data[159:128];
-            5:    instr = block_data[191:160];
-            6:    instr = block_data[223:192];
-            7:    instr = block_data[255:224];
-            default:instr = block_data[31:0];
-        endcase
     
     always@(posedge clk)
     begin
